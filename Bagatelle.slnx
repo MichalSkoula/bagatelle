@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Bagatelle.Android/Bagatelle.Android.csproj" />
+  <Project Path="Bagatelle.DX/Bagatelle.DX.csproj" />
+  <Project Path="Bagatelle.Shared/Bagatelle.Shared.shproj" />
+</Solution>
