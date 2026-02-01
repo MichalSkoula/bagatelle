@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
   <Project Path="Bagatelle.Android/Bagatelle.Android.csproj" />
   <Project Path="Bagatelle.DX/Bagatelle.DX.csproj" />
   <Project Path="Bagatelle.Shared/Bagatelle.Shared.shproj" />
