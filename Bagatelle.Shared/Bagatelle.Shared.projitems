@@ -10,6 +10,27 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Game1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Platform.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\InputManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\TouchInput.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\IntroScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\MenuScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\PlayingScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\GameOverScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\CreditsScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\BaseScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameObjects\Ball.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameObjects\Board.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameObjects\Hole.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameObjects\Launcher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameObjects\Peg.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logic\GameManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logic\Physics.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logic\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Hud.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\DrawHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />

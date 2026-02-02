@@ -1,2 +1,2 @@
-﻿using var game = new Bagatelle.DX.Game1();
+﻿using var game = new Bagatelle.Shared.Game1();
 game.Run();
