@@ -55,8 +55,8 @@ namespace Bagatelle.Shared.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            DrawHelper.DrawRectangle(spriteBatch, ChargeArea, GameConstants.PegColor);
-
+            // Don't draw the launcher rectangle - it clutters the board
+            // Only draw charge indicator when charging
             if (IsCharging)
             {
                 int chargeWidth = (int)(ChargeArea.Width * ChargePower);

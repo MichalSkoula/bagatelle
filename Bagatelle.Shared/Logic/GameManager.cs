@@ -93,9 +93,9 @@ namespace Bagatelle.Shared.Logic
             {
                 if (hole.Occupant != null)
                 {
-                     // If occupant moved away or is moving fast, it's no longer occupying
+                     // If occupant moved away or is moving, it's no longer occupying
                      float dist = Vector2.Distance(hole.Occupant.Position, hole.Position);
-                     if (dist > 5f || hole.Occupant.Velocity.Length() > 100f)
+                     if (dist > 3f || hole.Occupant.Velocity.Length() > 50f || !hole.Occupant.IsInHole)
                      {
                          hole.Occupant = null;
                      }

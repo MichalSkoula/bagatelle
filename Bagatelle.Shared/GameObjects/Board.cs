@@ -21,7 +21,7 @@ namespace Bagatelle.Shared.GameObjects
         public Launcher Launcher { get; }
 
         private const int Margin = 20;
-        private const int TopMargin = 40; // Space for UI above board
+        private const int TopMargin = 80; // More space for UI - scores and menu button
         private const int ChannelWidth = 40;
 
         public Board()
@@ -72,7 +72,7 @@ namespace Bagatelle.Shared.GameObjects
             Holes = CreateHoles();
             Pegs = CreatePegs();
             
-            Launcher = new Launcher(new Vector2(LaunchChannel.Center.X, MainArea.Bottom - 30));
+            Launcher = new Launcher(new Vector2(LaunchChannel.Center.X, MainArea.Bottom + 10));
         }
 
         private List<Hole> CreateHoles()
@@ -136,7 +136,8 @@ namespace Bagatelle.Shared.GameObjects
 
         public Vector2 GetBallStartPosition()
         {
-            return new Vector2(LaunchChannel.Center.X, MainArea.Bottom - 50);
+            // Ball should sit on the bottom of the channel
+            return new Vector2(LaunchChannel.Center.X, MainArea.Bottom - GameConstants.BallRadius);
         }
 
         public void Draw(SpriteBatch spriteBatch)

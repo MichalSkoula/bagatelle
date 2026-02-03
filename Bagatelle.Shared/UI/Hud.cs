@@ -15,7 +15,7 @@ namespace Bagatelle.Shared.UI
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            int y = 10;
+            int y = 50; // Moved down to make room for menu button
             int padding = 10;
 
             // Player 1

@@ -11,6 +11,7 @@ namespace Bagatelle.Shared.Screens
         private readonly GameManager _gameManager;
         private Rectangle _restartButton;
         private Rectangle _menuButton;
+        private int _frameCount;
 
         public GameOverScreen(Game game, GameManager gameManager) : base(game)
         {
@@ -25,11 +26,17 @@ namespace Bagatelle.Shared.Screens
 
             _restartButton = new Rectangle(centerX, 450, buttonWidth, buttonHeight);
             _menuButton = new Rectangle(centerX, 530, buttonWidth, buttonHeight);
+            _frameCount = 0;
         }
 
         public override void Update(GameTime gameTime)
         {
             InputManager.Update(Game.IsActive);
+            _frameCount++;
+
+            // Ignore input for 60 frames to prevent click-through
+            if (_frameCount < 60)
+                return;
 
             if (InputManager.IsButtonPressed(_restartButton))
                 Game1.Screens.SetScreen(new PlayingScreen(Game, _gameManager.PlayerCount));

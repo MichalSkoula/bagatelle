@@ -12,6 +12,7 @@ namespace Bagatelle.Shared.GameObjects
         public float Radius { get; }
         public bool IsActive { get; set; }
         public bool IsInHole { get; set; }
+        public float TimeAtLowSpeed { get; set; }
 
         public Ball(Vector2 position, Color color)
         {
@@ -21,20 +22,33 @@ namespace Bagatelle.Shared.GameObjects
             Velocity = Vector2.Zero;
             IsActive = false;
             IsInHole = false;
+            TimeAtLowSpeed = 0f;
         }
 
         public void Update(float deltaTime)
         {
             if (!IsActive) return;
 
-            // Always apply gravity
-            Velocity += new Vector2(0, GameConstants.Gravity * deltaTime);
+            // Apply gravity only when NOT locked in hole
+            if (!IsInHole)
+            {
+                Velocity += new Vector2(0, GameConstants.Gravity * deltaTime);
+            }
+            
             Position += Velocity * deltaTime;
+            
+            // Track how long ball has been moving slowly
+            if (Velocity.Length() < GameConstants.BallLowSpeedThreshold)
+                TimeAtLowSpeed += deltaTime;
+            else
+                TimeAtLowSpeed = 0f;
         }
 
         public void Launch(float power)
         {
             IsActive = true;
+            IsInHole = false; // Ensure ball is not marked as in hole when launched
+            TimeAtLowSpeed = 0f;
             Velocity = new Vector2(0, -power);
         }
 

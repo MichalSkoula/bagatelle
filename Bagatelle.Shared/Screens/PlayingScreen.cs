@@ -13,6 +13,7 @@ namespace Bagatelle.Shared.Screens
         private GameManager _gameManager;
         private Hud _hud;
         private readonly int _playerCount;
+        private Rectangle _menuButton;
 
         public PlayingScreen(Game game, int playerCount) : base(game)
         {
@@ -24,6 +25,9 @@ namespace Bagatelle.Shared.Screens
             _board = new Board();
             _gameManager = new GameManager(_playerCount, _board);
             _hud = new Hud(_gameManager);
+            
+            // Menu button at top, centered
+            _menuButton = new Rectangle(GameConstants.ScreenWidth / 2 - 35, 10, 70, 30);
         }
 
         public override void Update(GameTime gameTime)
@@ -31,8 +35,16 @@ namespace Bagatelle.Shared.Screens
             InputManager.Update(Game.IsActive);
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            // Check menu button
+            if (InputManager.IsButtonPressed(_menuButton))
+            {
+                Game1.Screens.SetScreen(new MenuScreen(Game));
+                return;
+            }
+
             if (_gameManager.State == GameState.GameOver)
             {
+                // Don't auto-transition, just wait for user to tap to continue
                 if (InputManager.WasConfirmPressed())
                     Game1.Screens.SetScreen(new GameOverScreen(Game, _gameManager));
                 return;
@@ -80,6 +92,12 @@ namespace Bagatelle.Shared.Screens
             }
 
             _hud.Draw(spriteBatch);
+            
+            // Draw menu button
+            DrawHelper.DrawRectangle(spriteBatch, _menuButton, Color.Black * 0.5f);
+            DrawHelper.DrawBorder(spriteBatch, _menuButton, Color.White, 1);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "MENU", 
+                new Vector2(_menuButton.Center.X, _menuButton.Center.Y), Color.White);
         }
     }
 }

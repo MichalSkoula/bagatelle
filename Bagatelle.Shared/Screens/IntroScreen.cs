@@ -7,17 +7,13 @@ namespace Bagatelle.Shared.Screens
 {
     public class IntroScreen : BaseScreen
     {
-        private float _timer;
-        private const float Duration = 2f;
-
         public IntroScreen(Game game) : base(game) { }
 
         public override void Update(GameTime gameTime)
         {
             InputManager.Update(Game.IsActive);
-            _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (_timer >= Duration || InputManager.WasConfirmPressed())
+            if (InputManager.WasConfirmPressed())
             {
                 Game1.Screens.SetScreen(new MenuScreen(Game));
             }

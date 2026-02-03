@@ -7,11 +7,23 @@ namespace Bagatelle.Shared.Screens
 {
     public class CreditsScreen : BaseScreen
     {
+        private int _frameCount;
+        
         public CreditsScreen(Game game) : base(game) { }
+
+        public override void LoadContent()
+        {
+            _frameCount = 0;
+        }
 
         public override void Update(GameTime gameTime)
         {
             InputManager.Update(Game.IsActive);
+            _frameCount++;
+
+            // Ignore input for 60 frames to prevent click-through
+            if (_frameCount < 60)
+                return;
 
             if (InputManager.WasConfirmPressed())
                 Game1.Screens.SetScreen(new MenuScreen(Game));

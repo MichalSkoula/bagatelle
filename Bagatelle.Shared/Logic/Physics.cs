@@ -66,10 +66,8 @@ namespace Bagatelle.Shared.Logic
             }
 
             // Bottom of channel (Launcher face)
-            // Fix: Stop ball at the start position height to prevent "drop and teleport" glitch.
-            // Start position is at Bottom - 50 (center). 
-            // So we want the ball center to not go below that.
-            float launcherFloorY = channel.Bottom - 50 + ball.Radius;
+            // Ball starts at Bottom - BallRadius, so floor should be slightly below that
+            float launcherFloorY = channel.Bottom;
             
             if (ball.Position.Y + ball.Radius > launcherFloorY)
             {
@@ -140,12 +138,11 @@ namespace Bagatelle.Shared.Logic
             // Note: Right Outer Wall for the channel is handled in HandleChannelCollision
 
             // Bottom Wall (Gutter)
-            // Allow ball to bounce off bottom
-            if (ball.Position.Y + ball.Radius > mainArea.Bottom)
+            // Only apply in main play area, NOT in launcher channel
+            // If ball is in channel (X >= channelWallX), let HandleChannelCollision manage bottom
+            if (ball.Position.X < channelWallX && ball.Position.Y + ball.Radius > mainArea.Bottom)
             {
                 ball.Position = new Vector2(ball.Position.X, mainArea.Bottom - ball.Radius);
-                // Lower restitution for floor to reduce bouncing
-                // Increase Y restitution to 0.5f (was 0.2f) so it bounces a bit more
                 float xFriction = 0.8f;
                 ball.Velocity = new Vector2(ball.Velocity.X * xFriction, -Math.Abs(ball.Velocity.Y) * 0.5f);
             }
@@ -200,8 +197,11 @@ namespace Bagatelle.Shared.Logic
 
         public static void ApplyHoleTrap(Ball ball, Hole hole)
         {
-             if (hole.Occupant != null && hole.Occupant != ball && Physics.IsBallStopped(hole.Occupant))
+             // Check if hole has an occupant
+             if (hole.Occupant != null && hole.Occupant != ball)
              {
+                 // Hole is occupied - don't let another ball settle here
+                 // Fast balls should hit and potentially eject the occupant
                  return;
              }
 
@@ -209,41 +209,51 @@ namespace Bagatelle.Shared.Logic
              float dist = toCenter.Length();
              float speed = ball.Velocity.Length();
              
-             // Very fast balls fly over - no effect
-             if (speed > 800f)
+             // Fast balls can fly over
+             if (speed > GameConstants.HoleEscapeSpeed && !ball.IsInHole)
              {
                  return;
              }
              
-             // Only affect balls that are close to the hole
-             if (dist < hole.Radius * 1.2f)
+             // Check if ball is inside the hole
+             if (dist < GameConstants.HoleRadius)
+             {
+                 // Ball is INSIDE the hole - lock it in!
+                 ball.IsInHole = true;
+                 
+                 Vector2 pull = toCenter;
+                 if (dist > 0) pull.Normalize();
+                 
+                 // Strong pull to center - gravity is disabled for balls in holes
+                 ball.Velocity += pull * GameConstants.HoleInsidePullStrength * 0.016f;
+                 ball.Velocity *= GameConstants.HoleInsideFriction;
+                 
+                 // Snap to center when slow
+                 if (speed < GameConstants.HoleSnapSpeed || dist < GameConstants.HoleRadius * 0.3f)
+                 {
+                     ball.Velocity = Vector2.Zero;
+                     ball.Position = hole.Position;
+                     if (hole.Occupant == null) hole.Occupant = ball;
+                 }
+             }
+             // Ball is approaching the hole
+             else if (dist < GameConstants.HoleRadius * GameConstants.HoleAttractionRadius)
              {
                  Vector2 pull = toCenter;
                  if (dist > 0) pull.Normalize();
                  
-                 // Pull strength - stronger for slower balls
-                 float pullStrength = 2000f * (1f - speed / 800f);
-                 ball.Velocity += pull * pullStrength * 0.016f; 
+                 // Normal attraction to pull ball in - weaker for faster balls
+                 float speedFactor = System.Math.Max(0f, 1f - speed / GameConstants.HoleEscapeSpeed);
+                 float pullStrength = GameConstants.HoleOutsidePullStrengthBase + 
+                                     (GameConstants.HoleOutsidePullStrengthBonus * speedFactor);
                  
-                 // Friction when near hole
-                 ball.Velocity *= 0.90f; 
-
-                 // Snap to center when very slow and close
-                 if (dist < hole.Radius && speed < 80f)
-                 {
-                      ball.Velocity = Vector2.Zero;
-                      ball.Position = hole.Position;
-                      ball.IsInHole = true;
-                      if (hole.Occupant == null) hole.Occupant = ball;
-                 }
-                 else if (dist < hole.Radius)
-                 {
-                     ball.IsInHole = true;
-                 }
+                 ball.Velocity += pull * pullStrength * 0.016f; 
+                 ball.Velocity *= GameConstants.HoleOutsideFriction;
              }
+             // Ball is far from hole
              else
              {
-                 if (ball.IsInHole && dist > hole.Radius)
+                 if (ball.IsInHole && dist > GameConstants.HoleRadius * 1.5f)
                  {
                      ball.IsInHole = false;
                      if (hole.Occupant == ball) hole.Occupant = null;
@@ -291,10 +301,12 @@ namespace Bagatelle.Shared.Logic
 
         public static bool IsBallStopped(Ball ball)
         {
-            // Increased threshold to prevent endless turns
-            // If in hole, we are very generous to allow turn to end
-            if (ball.IsInHole && ball.Velocity.Length() < 100f) return true;
-            return ball.Velocity.Length() < 20f;
+            // Ball must be slow AND have been slow for a while
+            // This prevents false positives during bounces
+            if (ball.IsInHole && ball.Velocity.Length() < 100f && ball.TimeAtLowSpeed > 0.3f) 
+                return true;
+            
+            return ball.Velocity.Length() < 20f && ball.TimeAtLowSpeed > GameConstants.BallStoppedTimeThreshold;
         }
 
         public static bool IsBallInLauncher(Ball ball, Board board)

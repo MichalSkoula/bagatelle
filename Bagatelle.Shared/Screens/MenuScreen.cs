@@ -10,6 +10,7 @@ namespace Bagatelle.Shared.Screens
         private Rectangle _onePlayerButton;
         private Rectangle _twoPlayerButton;
         private Rectangle _creditsButton;
+        private int _frameCount;
 
         public MenuScreen(Game game) : base(game) { }
 
@@ -24,11 +25,17 @@ namespace Bagatelle.Shared.Screens
             _onePlayerButton = new Rectangle(centerX, startY, buttonWidth, buttonHeight);
             _twoPlayerButton = new Rectangle(centerX, startY + spacing, buttonWidth, buttonHeight);
             _creditsButton = new Rectangle(centerX, startY + spacing * 2, buttonWidth, buttonHeight);
+            _frameCount = 0;
         }
 
         public override void Update(GameTime gameTime)
         {
             InputManager.Update(Game.IsActive);
+            _frameCount++;
+
+            // Ignore input for 60 frames to prevent click-through
+            if (_frameCount < 60)
+                return;
 
             if (InputManager.IsButtonPressed(_onePlayerButton))
                 Game1.Screens.SetScreen(new PlayingScreen(Game, 1));
