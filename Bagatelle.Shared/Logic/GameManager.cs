@@ -24,6 +24,7 @@ namespace Bagatelle.Shared.Logic
         public List<Ball> BallsOnBoard { get; } = new List<Ball>();
 
         private readonly Board _board;
+        private bool _ballEnteredPlayArea;
 
         public GameManager(int playerCount, Board board)
         {
@@ -53,6 +54,7 @@ namespace Bagatelle.Shared.Logic
             CurrentPlayer.UseBall();
             State = GameState.BallInPlay;
             BallsOnBoard.Add(CurrentBall);
+            _ballEnteredPlayArea = false;
         }
 
         public void Update(float deltaTime)
@@ -103,20 +105,32 @@ namespace Bagatelle.Shared.Logic
             // Special handling for the Current Ball logic (Turn ending)
             if (State == GameState.BallInPlay)
             {
-                // Check if CurrentBall returned to launcher (Low power)
-                if (Physics.IsBallInLauncher(CurrentBall, _board) && Physics.IsBallStopped(CurrentBall))
+                // Track if ball has truly entered the main play area
+                // Must be well into play area (not just touching edge) AND below arc level
+                bool inPlayAreaX = CurrentBall.Position.X < _board.ChannelWallX - 30;
+                bool belowArc = CurrentBall.Position.Y > _board.ArcCenter.Y;
+                if (inPlayAreaX && belowArc)
                 {
-                    // Reset turn logic:
-                    // Reuse the SAME ball object to prevent duplication issues
-                    BallsOnBoard.Remove(CurrentBall);
-                    
-                    CurrentBall.Position = _board.GetBallStartPosition();
-                    CurrentBall.Velocity = Vector2.Zero;
-                    CurrentBall.IsInHole = false;
-                    CurrentBall.IsActive = false;
-                    
-                    CurrentPlayer.ReturnBall(); 
-                    State = GameState.WaitingToLaunch;
+                    _ballEnteredPlayArea = true;
+                }
+                
+                // If ball never properly entered play area, don't end turn
+                // Just wait for ball to return to launcher or enter play area
+                if (!_ballEnteredPlayArea)
+                {
+                    // Check if ball stopped in launcher
+                    if (Physics.IsBallInLauncher(CurrentBall, _board) && Physics.IsBallStopped(CurrentBall))
+                    {
+                        BallsOnBoard.Remove(CurrentBall);
+                        
+                        CurrentBall.Position = _board.GetBallStartPosition();
+                        CurrentBall.Velocity = Vector2.Zero;
+                        CurrentBall.IsInHole = false;
+                        CurrentBall.IsActive = false;
+                        
+                        CurrentPlayer.ReturnBall(); 
+                        State = GameState.WaitingToLaunch;
+                    }
                     return;
                 }
 

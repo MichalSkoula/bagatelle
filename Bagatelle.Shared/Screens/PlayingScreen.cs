@@ -58,8 +58,7 @@ namespace Bagatelle.Shared.Screens
                 _gameManager.LaunchBall(power);
             }
 
-            if (InputManager.WasBackPressed())
-                Game1.Screens.SetScreen(new MenuScreen(Game));
+
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

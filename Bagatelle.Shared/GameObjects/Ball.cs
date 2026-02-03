@@ -27,18 +27,9 @@ namespace Bagatelle.Shared.GameObjects
         {
             if (!IsActive) return;
 
-            // Apply gravity only if not trapped in a hole
-            if (!IsInHole)
-            {
-                Velocity += new Vector2(0, GameConstants.Gravity * deltaTime);
-                Position += Velocity * deltaTime;
-            }
-            else
-            {
-                // No double damping here! Physics.ApplyHoleTrap handles dynamics.
-                // Just move based on velocity
-                Position += Velocity * deltaTime;
-            }
+            // Always apply gravity
+            Velocity += new Vector2(0, GameConstants.Gravity * deltaTime);
+            Position += Velocity * deltaTime;
         }
 
         public void Launch(float power)

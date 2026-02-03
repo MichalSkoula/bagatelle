@@ -13,7 +13,7 @@ namespace Bagatelle.Shared.Screens
         {
             InputManager.Update(Game.IsActive);
 
-            if (InputManager.WasConfirmPressed() || InputManager.WasBackPressed())
+            if (InputManager.WasConfirmPressed())
                 Game1.Screens.SetScreen(new MenuScreen(Game));
         }
 
@@ -26,7 +26,7 @@ namespace Bagatelle.Shared.Screens
             DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Bagatelle", new Vector2(centerX, 300), Color.Gray);
             DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Inspired by", new Vector2(centerX, 380), Color.Gray);
             DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Symbian game", new Vector2(centerX, 420), Color.Gray);
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Press any key", new Vector2(centerX, 550), Color.White);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Tap to return", new Vector2(centerX, 550), Color.White);
         }
     }
 }

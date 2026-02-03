@@ -200,48 +200,49 @@ namespace Bagatelle.Shared.Logic
 
         public static void ApplyHoleTrap(Ball ball, Hole hole)
         {
-             // If another ball already occupies the hole and it's not us, bounce off or displace?
-             // Simplification: If occupant exists and is stopped, we can't enter easily.
              if (hole.Occupant != null && hole.Occupant != ball && Physics.IsBallStopped(hole.Occupant))
              {
-                 // We can't enter if occupied. 
-                 // Unless we hit it hard enough to knock it out (handled in HandleBallCollision).
-                 // So we don't apply trap forces if occupied.
                  return;
              }
 
              Vector2 toCenter = hole.Position - ball.Position;
              float dist = toCenter.Length();
+             float speed = ball.Velocity.Length();
              
-             // 1. Gravity Pull (Slope)
-             // Only apply if speed is low enough to be "caught"
-             if (dist < hole.Radius * 1.2f && ball.Velocity.Length() < 800f)
+             // Very fast balls fly over - no effect
+             if (speed > 800f)
+             {
+                 return;
+             }
+             
+             // Only affect balls that are close to the hole
+             if (dist < hole.Radius * 1.2f)
              {
                  Vector2 pull = toCenter;
                  if (dist > 0) pull.Normalize();
                  
-                 // Strong pull to center
-                 ball.Velocity += pull * 2500f * 0.016f; 
+                 // Pull strength - stronger for slower balls
+                 float pullStrength = 2000f * (1f - speed / 800f);
+                 ball.Velocity += pull * pullStrength * 0.016f; 
                  
-                 // Friction to stabilize, but not stop dead
-                 ball.Velocity *= 0.85f; 
+                 // Friction when near hole
+                 ball.Velocity *= 0.90f; 
 
-                 // 2. Stop condition (Snap to center)
-                 // If within radius and slow enough, snap to center.
-                 // This ensures balls don't get stuck on the edge.
-                 if (dist < hole.Radius && ball.Velocity.Length() < 400f)
+                 // Snap to center when very slow and close
+                 if (dist < hole.Radius && speed < 80f)
                  {
                       ball.Velocity = Vector2.Zero;
                       ball.Position = hole.Position;
+                      ball.IsInHole = true;
                       if (hole.Occupant == null) hole.Occupant = ball;
                  }
-                 
-                 if (dist < hole.Radius)
-                    ball.IsInHole = true;
+                 else if (dist < hole.Radius)
+                 {
+                     ball.IsInHole = true;
+                 }
              }
              else
              {
-                 // Too fast or too far, reset hole flag
                  if (ball.IsInHole && dist > hole.Radius)
                  {
                      ball.IsInHole = false;

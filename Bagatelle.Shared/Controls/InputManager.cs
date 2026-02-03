@@ -5,8 +5,6 @@ namespace Bagatelle.Shared.Controls
 {
     public static class InputManager
     {
-        private static KeyboardState _previousKeyboard;
-        private static KeyboardState _currentKeyboard;
         private static MouseState _previousMouse;
         private static MouseState _currentMouse;
         
@@ -23,10 +21,7 @@ namespace Bagatelle.Shared.Controls
 
         public static void Update(bool isActive)
         {
-            _previousKeyboard = _currentKeyboard;
             _previousMouse = _currentMouse;
-
-            _currentKeyboard = Keyboard.GetState();
             _currentMouse = Mouse.GetState();
 
             TouchInput.Update(isActive);
@@ -47,16 +42,12 @@ namespace Bagatelle.Shared.Controls
         // Charging (hold to charge power)
         public static bool IsCharging()
         {
-            return IsKeyHeld(Keys.Space) ||
-                   IsMouseLeftHeld() ||
-                   TouchInput.IsPressedAnywhere();
+            return IsMouseLeftHeld() || TouchInput.IsPressedAnywhere();
         }
 
         public static bool WasChargingReleased()
         {
-            return WasKeyReleased(Keys.Space) ||
-                   WasMouseLeftReleased() ||
-                   TouchInput.WasReleasedAnywhere();
+            return WasMouseLeftReleased() || TouchInput.WasReleasedAnywhere();
         }
 
         // Button interactions
@@ -69,15 +60,6 @@ namespace Bagatelle.Shared.Controls
         {
             return IsMouseLeftHeldInArea(hitbox) || TouchInput.IsPressed(hitbox);
         }
-
-        // Keyboard
-        public static bool IsKeyHeld(Keys key) => _currentKeyboard.IsKeyDown(key);
-
-        public static bool WasKeyPressed(Keys key) =>
-            _currentKeyboard.IsKeyDown(key) && !_previousKeyboard.IsKeyDown(key);
-
-        public static bool WasKeyReleased(Keys key) =>
-            !_currentKeyboard.IsKeyDown(key) && _previousKeyboard.IsKeyDown(key);
 
         // Mouse
         public static bool IsMouseLeftHeld() =>
@@ -97,14 +79,12 @@ namespace Bagatelle.Shared.Controls
         public static bool IsMouseLeftHeldInArea(Rectangle area) =>
             IsMouseLeftHeld() && IsPointInArea(_currentMouse.Position, area);
 
-        public static Point MousePosition => _currentMouse.Position; // Raw screen position
+        public static Point MousePosition => _currentMouse.Position;
 
         // Navigation
         public static bool WasConfirmPressed() =>
-            WasKeyPressed(Keys.Enter) || WasKeyPressed(Keys.Space) ||
             WasMouseLeftPressed() || TouchInput.WasReleasedAnywhere();
 
-        public static bool WasBackPressed() =>
-            WasKeyPressed(Keys.Escape) || WasKeyPressed(Keys.Back);
+        public static bool WasBackPressed() => false;
     }
 }
