@@ -10,14 +10,14 @@ namespace Bagatelle.Shared.Controls
     {
         private static List<TouchLocation> _previousTouches = new();
         private static readonly List<TouchLocation> _currentTouches = new();
-        
+
         // Resolution scaling
         private static float _scale = 1.0f;
         private static Vector2 _offset = Vector2.Zero;
 
         public static bool Available { get; private set; }
         private static bool _capabilityProbed;
-        
+
         public static void SetScale(float scale, Vector2 offset)
         {
             _scale = scale;
@@ -65,7 +65,7 @@ namespace Bagatelle.Shared.Controls
             }
             catch { /* Ignore probing errors */ }
         }
-        
+
         private static Vector2 TransformPosition(Vector2 pos)
         {
             return (pos - _offset) / _scale;

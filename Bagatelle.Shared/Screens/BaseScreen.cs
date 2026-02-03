@@ -8,6 +8,7 @@ namespace Bagatelle.Shared.Screens
         protected Game Game { get; }
         protected GraphicsDevice GraphicsDevice => Game.GraphicsDevice;
 
+        // Enable clicking after a short delay to avoid accidental inputs
         protected int LimitFrames = 30;
 
         protected BaseScreen(Game game)

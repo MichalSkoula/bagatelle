@@ -1,6 +1,6 @@
+using Bagatelle.Shared.Logic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Bagatelle.Shared.Logic;
 
 namespace Bagatelle.Shared.UI
 {

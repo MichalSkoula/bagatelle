@@ -1,9 +1,9 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Bagatelle.Shared.Controls;
 using Bagatelle.Shared.GameObjects;
 using Bagatelle.Shared.Logic;
 using Bagatelle.Shared.UI;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Bagatelle.Shared.Screens
 {
@@ -25,7 +25,7 @@ namespace Bagatelle.Shared.Screens
             _board = new Board();
             _gameManager = new GameManager(_playerCount, _board);
             _hud = new Hud(_gameManager);
-            
+
             // Menu button at top, centered
             _menuButton = new Rectangle(GameConstants.ScreenWidth / 2 - 35, 10, 70, 30);
         }
@@ -78,21 +78,21 @@ namespace Bagatelle.Shared.Screens
             DrawHelper.DrawRectangle(spriteBatch, new Rectangle(0, 0, GameConstants.ScreenWidth, GameConstants.ScreenHeight), GameConstants.BoardDarkColor);
 
             _board.Draw(spriteBatch);
-            
+
             // Draw all active balls
             foreach (var ball in _gameManager.BallsOnBoard)
             {
                 ball.Draw(spriteBatch);
             }
-            
+
             // Draw current ball if not in list (e.g. waiting to launch)
             if (_gameManager.State == GameState.WaitingToLaunch && _gameManager.CurrentBall != null)
             {
-                 _gameManager.CurrentBall.Draw(spriteBatch);
+                _gameManager.CurrentBall.Draw(spriteBatch);
             }
 
             _hud.Draw(spriteBatch);
-            
+
             // Draw menu button
             DrawHelper.DrawRectangle(spriteBatch, _menuButton, Color.Black * 0.5f);
             DrawHelper.DrawBorder(spriteBatch, _menuButton, Color.White, 1);

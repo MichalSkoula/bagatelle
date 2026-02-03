@@ -1,5 +1,5 @@
-using Microsoft.Xna.Framework;
 using Bagatelle.Shared.GameObjects;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
 namespace Bagatelle.Shared.Logic
@@ -66,7 +66,7 @@ namespace Bagatelle.Shared.Logic
             foreach (var ball in BallsOnBoard)
             {
                 ball.Update(deltaTime);
-                
+
                 // Ball-Board Collisions
                 Physics.HandleBoardCollision(ball, _board);
 
@@ -81,27 +81,27 @@ namespace Bagatelle.Shared.Logic
                 {
                     if (ball == other) continue;
                     Physics.HandleBallCollision(ball, other);
-                    
+
                     // If collision happened, we might have knocked a ball out of a hole
                     // We need to update hole occupancy
                     // We can do this by checking distance to holes in next frame or here
                 }
             }
-            
+
             // Cleanup Hole Occupancy
             foreach (var hole in _board.Holes)
             {
                 if (hole.Occupant != null)
                 {
-                     // If occupant moved away or is moving, it's no longer occupying
-                     float dist = Vector2.Distance(hole.Occupant.Position, hole.Position);
-                     if (dist > 3f || hole.Occupant.Velocity.Length() > 50f || !hole.Occupant.IsInHole)
-                     {
-                         hole.Occupant = null;
-                     }
+                    // If occupant moved away or is moving, it's no longer occupying
+                    float dist = Vector2.Distance(hole.Occupant.Position, hole.Position);
+                    if (dist > 3f || hole.Occupant.Velocity.Length() > 50f || !hole.Occupant.IsInHole)
+                    {
+                        hole.Occupant = null;
+                    }
                 }
             }
-            
+
             // Special handling for the Current Ball logic (Turn ending)
             if (State == GameState.BallInPlay)
             {
@@ -113,7 +113,7 @@ namespace Bagatelle.Shared.Logic
                 {
                     _ballEnteredPlayArea = true;
                 }
-                
+
                 // If ball never properly entered play area, don't end turn
                 // Just wait for ball to return to launcher or enter play area
                 if (!_ballEnteredPlayArea)
@@ -122,13 +122,13 @@ namespace Bagatelle.Shared.Logic
                     if (Physics.IsBallInLauncher(CurrentBall, _board) && Physics.IsBallStopped(CurrentBall))
                     {
                         BallsOnBoard.Remove(CurrentBall);
-                        
+
                         CurrentBall.Position = _board.GetBallStartPosition();
                         CurrentBall.Velocity = Vector2.Zero;
                         CurrentBall.IsInHole = false;
                         CurrentBall.IsActive = false;
-                        
-                        CurrentPlayer.ReturnBall(); 
+
+                        CurrentPlayer.ReturnBall();
                         State = GameState.WaitingToLaunch;
                     }
                     return;
@@ -136,43 +136,43 @@ namespace Bagatelle.Shared.Logic
 
                 // Interaction with holes
                 // Balls settle in holes physically now.
-                
+
                 bool allStopped = true;
                 foreach (var ball in BallsOnBoard)
                 {
-                     if (!Physics.IsBallStopped(ball))
-                     {
-                         allStopped = false;
-                     }
-                     
-                     // Check if ball is in hole area
-                     var hole = Physics.GetHoleContaining(ball, _board.Holes);
-                     if (hole != null)
-                     {
-                         // Apply hole physics (trap)
-                         Physics.ApplyHoleTrap(ball, hole);
-                     }
-                     else
-                     {
-                         ball.IsInHole = false;
-                     }
+                    if (!Physics.IsBallStopped(ball))
+                    {
+                        allStopped = false;
+                    }
+
+                    // Check if ball is in hole area
+                    var hole = Physics.GetHoleContaining(ball, _board.Holes);
+                    if (hole != null)
+                    {
+                        // Apply hole physics (trap)
+                        Physics.ApplyHoleTrap(ball, hole);
+                    }
+                    else
+                    {
+                        ball.IsInHole = false;
+                    }
                 }
 
                 if (allStopped)
                 {
-                     // If Current Ball is stopped (and not in launcher, handled above)
-                     // End Turn.
-                     // Calculate Score for new settlements?
-                     // Let's assume points are awarded when the ball settles in a hole.
-                     // To avoid double counting, we could calculate score at end of turn based on where it is.
-                     
-                     // Wait, if next ball knocks it out, do we lose points?
-                     // Usually yes. Score is based on final position.
-                     // So we update score continuously or at end of all balls?
-                     // Standard: Score is sum of balls in holes.
-                     
-                     UpdateScores();
-                     EndTurn();
+                    // If Current Ball is stopped (and not in launcher, handled above)
+                    // End Turn.
+                    // Calculate Score for new settlements?
+                    // Let's assume points are awarded when the ball settles in a hole.
+                    // To avoid double counting, we could calculate score at end of turn based on where it is.
+
+                    // Wait, if next ball knocks it out, do we lose points?
+                    // Usually yes. Score is based on final position.
+                    // So we update score continuously or at end of all balls?
+                    // Standard: Score is sum of balls in holes.
+
+                    UpdateScores();
+                    EndTurn();
                 }
             }
         }
@@ -182,7 +182,7 @@ namespace Bagatelle.Shared.Logic
             // Reset scores and recalculate based on current board state
             // Or just add delta?
             // "Další kulička ji může vystrnadit" -> implied dynamic score.
-            
+
             foreach (var p in Players) p.Score = 0;
 
             foreach (var ball in BallsOnBoard)
@@ -190,14 +190,14 @@ namespace Bagatelle.Shared.Logic
                 var hole = Physics.GetHoleContaining(ball, _board.Holes);
                 if (hole != null && Physics.IsBallStopped(ball))
                 {
-                     // Find owner
-                     foreach (var p in Players)
-                     {
-                         if (p.Color == ball.Color)
-                         {
-                             p.Score += hole.Points;
-                         }
-                     }
+                    // Find owner
+                    foreach (var p in Players)
+                    {
+                        if (p.Color == ball.Color)
+                        {
+                            p.Score += hole.Points;
+                        }
+                    }
                 }
             }
         }

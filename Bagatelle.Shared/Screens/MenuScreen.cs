@@ -1,7 +1,7 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Bagatelle.Shared.Controls;
 using Bagatelle.Shared.UI;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Bagatelle.Shared.Screens
 {
@@ -27,7 +27,7 @@ namespace Bagatelle.Shared.Screens
             _onePlayerButton = new Rectangle(centerX, startY, buttonWidth, buttonHeight);
             _twoPlayerButton = new Rectangle(centerX, startY + spacing, buttonWidth, buttonHeight);
             _creditsButton = new Rectangle(centerX, startY + spacing * 2, buttonWidth, buttonHeight);
-            
+
 #if WINDOWS
             _fullscreenButton = new Rectangle(centerX, startY + spacing * 3, buttonWidth, buttonHeight);
             _exitButton = new Rectangle(centerX, startY + spacing * 4, buttonWidth, buttonHeight);
@@ -74,7 +74,7 @@ namespace Bagatelle.Shared.Screens
             DrawButton(spriteBatch, _onePlayerButton, "1 PLAYER");
             DrawButton(spriteBatch, _twoPlayerButton, "2 PLAYERS");
             DrawButton(spriteBatch, _creditsButton, "CREDITS");
-            
+
 #if WINDOWS
             var graphics = ((Game1)Game).GetGraphicsDeviceManager();
             string fsText = graphics.IsFullScreen ? "WINDOWED" : "FULLSCREEN";

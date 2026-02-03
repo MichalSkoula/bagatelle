@@ -1,6 +1,6 @@
+using Bagatelle.Shared.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Bagatelle.Shared.UI;
 
 namespace Bagatelle.Shared.GameObjects
 {
@@ -34,9 +34,9 @@ namespace Bagatelle.Shared.GameObjects
             {
                 Velocity += new Vector2(0, GameConstants.Gravity * deltaTime);
             }
-            
+
             Position += Velocity * deltaTime;
-            
+
             // Track how long ball has been moving slowly
             if (Velocity.Length() < GameConstants.BallLowSpeedThreshold)
                 TimeAtLowSpeed += deltaTime;

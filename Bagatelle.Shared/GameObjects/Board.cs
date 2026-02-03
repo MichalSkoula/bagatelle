@@ -1,8 +1,8 @@
+using Bagatelle.Shared.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using Bagatelle.Shared.UI;
 
 namespace Bagatelle.Shared.GameObjects
 {
@@ -35,10 +35,10 @@ namespace Bagatelle.Shared.GameObjects
             int boardWidth = screenW - 2 * Margin;
             int boardLeft = Margin;
             int boardRight = screenW - Margin;
-            
+
             // Radius is half the width
             ArcRadius = boardWidth / 2f;
-            
+
             // The semi-circle sits at the top. 
             // Center X is middle of board.
             // Center Y is TopMargin + ArcRadius.
@@ -55,10 +55,10 @@ namespace Bagatelle.Shared.GameObjects
             // 2. Define the Launch Channel
             // It's on the right side.
             ChannelWallX = boardRight - ChannelWidth;
-            
+
             // The channel wall shouldn't go all the way to the top of the arc.
             // It should stop to let the ball curve around.
-            ChannelWallTopY = ArcCenter.Y - 40; 
+            ChannelWallTopY = ArcCenter.Y - 40;
 
             // Logical rect for channel (used for input/logic mostly)
             LaunchChannel = new Rectangle(
@@ -71,7 +71,7 @@ namespace Bagatelle.Shared.GameObjects
             // 3. Create objects
             Holes = CreateHoles();
             Pegs = CreatePegs();
-            
+
             Launcher = new Launcher(new Vector2(LaunchChannel.Center.X, MainArea.Bottom + 10));
         }
 
@@ -113,7 +113,7 @@ namespace Bagatelle.Shared.GameObjects
         {
             var pegs = new List<Peg>();
             float centerX = (Margin + ChannelWallX) / 2f;
-            
+
             // Add Peg at the top of the Channel Separator to smooth the corner
             pegs.Add(new Peg(new Vector2(ChannelWallX, ChannelWallTopY)));
 
@@ -123,7 +123,7 @@ namespace Bagatelle.Shared.GameObjects
             pegs.Add(new Peg(new Vector2(centerX - 40, upperY)));
             pegs.Add(new Peg(new Vector2(centerX + 40, upperY)));
             pegs.Add(new Peg(new Vector2(centerX + 120, upperY)));
-            
+
             // Second row in arc
             float upperY2 = ArcCenter.Y - 10;
             pegs.Add(new Peg(new Vector2(centerX - 80, upperY2)));
@@ -166,10 +166,10 @@ namespace Bagatelle.Shared.GameObjects
 
             // Outer Left Wall
             DrawHelper.DrawRectangle(spriteBatch, new Rectangle(MainArea.Left, MainArea.Top, thickness, MainArea.Height), wallColor);
-            
+
             // Outer Right Wall
             DrawHelper.DrawRectangle(spriteBatch, new Rectangle(MainArea.Right - thickness, MainArea.Top, thickness, MainArea.Height), wallColor);
-            
+
             // Bottom Wall
             DrawHelper.DrawRectangle(spriteBatch, new Rectangle(MainArea.Left, MainArea.Bottom, MainArea.Width, thickness), wallColor);
 
@@ -179,9 +179,9 @@ namespace Bagatelle.Shared.GameObjects
 
             // Channel Separator Wall
             Rectangle channelWall = new Rectangle(
-                ChannelWallX, 
-                (int)ChannelWallTopY, 
-                thickness, 
+                ChannelWallX,
+                (int)ChannelWallTopY,
+                thickness,
                 MainArea.Bottom - (int)ChannelWallTopY
             );
             DrawHelper.DrawRectangle(spriteBatch, channelWall, wallColor);

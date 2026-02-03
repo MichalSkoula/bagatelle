@@ -2,8 +2,8 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
-using Microsoft.Xna.Framework;
 using Bagatelle.Shared;
+using Microsoft.Xna.Framework;
 
 namespace Bagatelle.Android
 {

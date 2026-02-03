@@ -7,7 +7,7 @@ namespace Bagatelle.Shared.Controls
     {
         private static MouseState _previousMouse;
         private static MouseState _currentMouse;
-        
+
         // Resolution scaling
         private static float _scale = 1.0f;
         private static Vector2 _offset = Vector2.Zero;
@@ -34,21 +34,21 @@ namespace Bagatelle.Shared.Controls
         {
             return (new Vector2(screenPoint.X, screenPoint.Y) - _offset) / _scale;
         }
-        
+
         private static bool IsPointInArea(Point screenPoint, Rectangle gameArea)
         {
             if (!_isActive)
                 return false;
-                
+
             Vector2 gamePos = TransformPosition(screenPoint);
             return gameArea.Contains(gamePos);
         }
-        
+
         private static bool IsMouseInGameBounds(Point mousePos)
         {
             if (!_isActive)
                 return false;
-                
+
             Vector2 gamePos = TransformPosition(mousePos);
             Rectangle gameBounds = new Rectangle(0, 0, GameConstants.ScreenWidth, GameConstants.ScreenHeight);
             return gameBounds.Contains(gamePos);

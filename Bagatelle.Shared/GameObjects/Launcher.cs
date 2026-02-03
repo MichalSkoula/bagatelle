@@ -1,6 +1,6 @@
+using Bagatelle.Shared.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Bagatelle.Shared.UI;
 
 namespace Bagatelle.Shared.GameObjects
 {
@@ -61,12 +61,12 @@ namespace Bagatelle.Shared.GameObjects
                 int margin = 10;
                 int barHeight = 20;
                 int barY = GameConstants.ScreenHeight - barHeight - margin;
-                
+
                 // Background bar
                 var bgRect = new Rectangle(margin, barY, GameConstants.ScreenWidth - margin * 2, barHeight);
                 DrawHelper.DrawRectangle(spriteBatch, bgRect, Color.Black * 0.5f);
                 DrawHelper.DrawBorder(spriteBatch, bgRect, Color.White, 2);
-                
+
                 // Charge fill
                 int chargeWidth = (int)((bgRect.Width - 4) * ChargePower);
                 if (chargeWidth > 0)

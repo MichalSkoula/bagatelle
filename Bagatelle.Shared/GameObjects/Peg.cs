@@ -1,6 +1,6 @@
+using Bagatelle.Shared.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Bagatelle.Shared.UI;
 
 namespace Bagatelle.Shared.GameObjects
 {

@@ -30,7 +30,7 @@ namespace Bagatelle.Shared.Logic
 
         public void ReturnBall()
         {
-             BallsRemaining++;
+            BallsRemaining++;
         }
 
         public bool HasBalls => BallsRemaining > 0;

@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Bagatelle.Shared.Controls;
+using Bagatelle.Shared.Screens;
+using Bagatelle.Shared.UI;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
-using Bagatelle.Shared.Screens;
-using Bagatelle.Shared.UI;
-using Bagatelle.Shared.Controls;
 
 namespace Bagatelle.Shared
 {
@@ -12,7 +12,7 @@ namespace Bagatelle.Shared
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        
+
         public static ScreenController Screens { get; private set; }
         public static SpriteFont Font { get; private set; }
         public static SpriteFont FontSmall { get; private set; }
@@ -25,7 +25,7 @@ namespace Bagatelle.Shared
         private Matrix _scaleMatrix;
         private Vector2 _screenOffset;
         private float _scale;
-        
+
 #if WINDOWS
         private int _windowedWidth = GameConstants.ScreenWidth;
         private int _windowedHeight = GameConstants.ScreenHeight;
@@ -36,7 +36,7 @@ namespace Bagatelle.Shared
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            
+
             // Allow resizing on desktop to test responsiveness
             Window.AllowUserResizing = false;
             Window.ClientSizeChanged += OnResize;
@@ -71,7 +71,7 @@ namespace Bagatelle.Shared
 #endif
             CalculateScale();
         }
-        
+
 #if WINDOWS
         public void ToggleFullscreen()
         {
@@ -106,28 +106,28 @@ namespace Bagatelle.Shared
             // Calculate centering offset
             float targetWidth = GameConstants.ScreenWidth * _scale;
             float targetHeight = GameConstants.ScreenHeight * _scale;
-            
+
             _screenOffset = new Vector2(
                 (screenWidth - targetWidth) / 2f,
                 (screenHeight - targetHeight) / 2f
             );
 
-            _scaleMatrix = Matrix.CreateScale(_scale) * 
+            _scaleMatrix = Matrix.CreateScale(_scale) *
                            Matrix.CreateTranslation(new Vector3(_screenOffset, 0));
-                           
+
             // Update InputManager with the new scale/offset
             InputManager.SetScale(_scale, _screenOffset);
 
             // Ensure TouchPanel knows the actual screen size (critical for Android)
             TouchPanel.DisplayWidth = (int)screenWidth;
             TouchPanel.DisplayHeight = (int)screenHeight;
-            TouchPanel.EnableMouseTouchPoint = true; 
+            TouchPanel.EnableMouseTouchPoint = true;
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+
             DrawHelper.Initialize(GraphicsDevice);
             Font = Content.Load<SpriteFont>("GameFont");
             FontSmall = Content.Load<SpriteFont>("GameFontSmall");
@@ -150,12 +150,12 @@ namespace Bagatelle.Shared
         {
             // Clear to BoardColor to match the game board (hides letterboxing)
             GraphicsDevice.Clear(GameConstants.BoardDarkColor);
-            
+
             // Draw screens with the scale matrix
             _spriteBatch.Begin(transformMatrix: _scaleMatrix);
             Screens.Draw(gameTime, _spriteBatch);
             _spriteBatch.End();
-            
+
             base.Draw(gameTime);
         }
     }
