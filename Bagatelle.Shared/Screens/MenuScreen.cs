@@ -18,7 +18,7 @@ namespace Bagatelle.Shared.Screens
 
         public override void LoadContent()
         {
-            int buttonWidth = 220;
+            int buttonWidth = 240;
             int buttonHeight = 60;
             int centerX = GameConstants.ScreenWidth / 2 - buttonWidth / 2;
             int startY = 300;
@@ -66,7 +66,7 @@ namespace Bagatelle.Shared.Screens
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            DrawHelper.DrawRectangle(spriteBatch, new Rectangle(0, 0, GameConstants.ScreenWidth, GameConstants.ScreenHeight), GameConstants.BoardColor);
+            DrawHelper.DrawRectangle(spriteBatch, new Rectangle(0, 0, GameConstants.ScreenWidth, GameConstants.ScreenHeight), GameConstants.BoardDarkColor);
 
             DrawHelper.DrawCenteredString(spriteBatch, Game1.FontLarge, "BAGATELLE",
                 new Vector2(GameConstants.ScreenWidth / 2, 150), Color.White);

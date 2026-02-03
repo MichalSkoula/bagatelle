@@ -37,7 +37,7 @@ namespace Bagatelle.Shared.UI
                     200, 60);
                 DrawHelper.DrawRectangle(spriteBatch, rect, Color.Black * 0.8f);
                 DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "GAME OVER",
-                    new Vector2(rect.Center.X, rect.Center.Y), Color.White);
+                    new Vector2(rect.Center.X, rect.Center.Y), Color.Beige);
             }
         }
 
@@ -46,7 +46,9 @@ namespace Bagatelle.Shared.UI
             var box = new Rectangle(x, y, 150, 60);
 
             if (isActive)
+            {
                 DrawHelper.DrawBorder(sb, new Rectangle(box.X - 2, box.Y - 2, box.Width + 4, box.Height + 4), Color.Yellow, 2);
+            }
 
             DrawHelper.DrawRectangle(sb, box, Color.Black * 0.5f);
             DrawHelper.DrawRectangle(sb, new Rectangle(x + 5, y + 5, 20, 50), player.Color);

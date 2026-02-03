@@ -77,7 +77,7 @@ namespace Bagatelle.Shared.Screens
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            DrawHelper.DrawRectangle(spriteBatch, new Rectangle(0, 0, GameConstants.ScreenWidth, GameConstants.ScreenHeight), GameConstants.BoardColor);
+            DrawHelper.DrawRectangle(spriteBatch, new Rectangle(0, 0, GameConstants.ScreenWidth, GameConstants.ScreenHeight), GameConstants.BoardDarkColor);
 
             int centerX = GameConstants.ScreenWidth / 2;
             DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "CREDITS", new Vector2(centerX, 150), Color.White);

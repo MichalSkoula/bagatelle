@@ -115,23 +115,10 @@ namespace Bagatelle.Shared.GameObjects
             float centerX = (Margin + ChannelWallX) / 2f;
 
             // Add Peg at the top of the Channel Separator to smooth the corner
-            pegs.Add(new Peg(new Vector2(ChannelWallX, ChannelWallTopY)));
-
-            // Upper arc area pegs - spread wide in the semicircle
-            float upperY = ArcCenter.Y - 60;
-            pegs.Add(new Peg(new Vector2(centerX - 120, upperY)));
-            pegs.Add(new Peg(new Vector2(centerX - 40, upperY)));
-            pegs.Add(new Peg(new Vector2(centerX + 40, upperY)));
-            pegs.Add(new Peg(new Vector2(centerX + 120, upperY)));
-
-            // Second row in arc
-            float upperY2 = ArcCenter.Y - 10;
-            pegs.Add(new Peg(new Vector2(centerX - 80, upperY2)));
-            pegs.Add(new Peg(new Vector2(centerX, upperY2)));
-            pegs.Add(new Peg(new Vector2(centerX + 80, upperY2)));
+            pegs.Add(new Peg(new Vector2(ChannelWallX + 2, ChannelWallTopY)));
 
             // Main peg grid (lower area)
-            float startY = ArcCenter.Y + 50;
+            float startY = ArcCenter.Y - 80;
             for (int row = 0; row < 5; row++)
             {
                 int pegCount = (row % 2 == 0) ? 4 : 3;
@@ -141,7 +128,7 @@ namespace Bagatelle.Shared.GameObjects
                 for (int i = 0; i < pegCount; i++)
                 {
                     float x = centerX + offsetX + i * spacing;
-                    float y = startY + row * 75;
+                    float y = startY + row * 110;
                     pegs.Add(new Peg(new Vector2(x, y)));
                 }
             }
@@ -175,7 +162,7 @@ namespace Bagatelle.Shared.GameObjects
 
             // Top Arc Wall
             // Draw upper semi-circle from PI (Left) to 2PI (Right)
-            DrawArcWall(spriteBatch, ArcCenter, ArcRadius, thickness, wallColor);
+            DrawArcWall(spriteBatch, ArcCenter, ArcRadius - 2, thickness, wallColor);
 
             // Channel Separator Wall
             Rectangle channelWall = new Rectangle(
@@ -194,7 +181,7 @@ namespace Bagatelle.Shared.GameObjects
 
         private void DrawArcWall(SpriteBatch sb, Vector2 center, float radius, int thickness, Color color)
         {
-            int segments = 64;
+            int segments = 128;
             // Arc from PI (Left) to 2PI (Right), going Up (negative Y relative to center)
             float startAngle = MathHelper.Pi;
             float totalAngle = MathHelper.Pi; // Semicircle

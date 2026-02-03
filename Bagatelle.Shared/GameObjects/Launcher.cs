@@ -58,7 +58,7 @@ namespace Bagatelle.Shared.GameObjects
             // Draw full-width charge indicator at bottom
             if (IsCharging)
             {
-                int margin = 10;
+                int margin = 20;
                 int barHeight = 20;
                 int barY = GameConstants.ScreenHeight - barHeight - margin;
 

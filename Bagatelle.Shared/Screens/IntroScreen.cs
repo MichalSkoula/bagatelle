@@ -22,7 +22,7 @@ namespace Bagatelle.Shared.Screens
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             // Fill background with board color
-            DrawHelper.DrawRectangle(spriteBatch, new Rectangle(0, 0, GameConstants.ScreenWidth, GameConstants.ScreenHeight), GameConstants.BoardColor);
+            DrawHelper.DrawRectangle(spriteBatch, new Rectangle(0, 0, GameConstants.ScreenWidth, GameConstants.ScreenHeight), GameConstants.BoardDarkColor);
 
             var center = new Vector2(GameConstants.ScreenWidth / 2, GameConstants.ScreenHeight / 2);
             DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "BAGATELLE", center, Color.White);

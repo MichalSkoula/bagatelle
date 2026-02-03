@@ -27,7 +27,7 @@ namespace Bagatelle.Shared.Screens
             _hud = new Hud(_gameManager);
 
             // Menu button at top, centered
-            _menuButton = new Rectangle(GameConstants.ScreenWidth / 2 - 35, 10, 70, 30);
+            _menuButton = new Rectangle(GameConstants.ScreenWidth / 2 - 45, 10, 90, 40);
         }
 
         public override void Update(GameTime gameTime)
@@ -94,9 +94,9 @@ namespace Bagatelle.Shared.Screens
             _hud.Draw(spriteBatch);
 
             // Draw menu button
-            DrawHelper.DrawRectangle(spriteBatch, _menuButton, Color.Black * 0.5f);
-            DrawHelper.DrawBorder(spriteBatch, _menuButton, Color.White, 1);
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.FontSmall, "MENU", new Vector2(_menuButton.Center.X, _menuButton.Center.Y), Color.White);
+            DrawHelper.DrawRectangle(spriteBatch, _menuButton, Color.Beige * 0.2f);
+            DrawHelper.DrawBorder(spriteBatch, _menuButton, Color.Beige, 2);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.FontSmall, "MENU", new Vector2(_menuButton.Center.X, _menuButton.Center.Y), Color.Beige);
         }
     }
 }
