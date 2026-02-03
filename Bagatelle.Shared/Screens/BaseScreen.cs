@@ -8,6 +8,8 @@ namespace Bagatelle.Shared.Screens
         protected Game Game { get; }
         protected GraphicsDevice GraphicsDevice => Game.GraphicsDevice;
 
+        protected int LimitFrames = 30;
+
         protected BaseScreen(Game game)
         {
             Game = game;

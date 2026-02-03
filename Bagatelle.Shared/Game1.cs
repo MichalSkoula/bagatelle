@@ -15,11 +15,21 @@ namespace Bagatelle.Shared
         
         public static ScreenController Screens { get; private set; }
         public static SpriteFont Font { get; private set; }
-        
+        public static SpriteFont FontSmall { get; private set; }
+
+        public static SpriteFont FontLarge { get; private set; }
+
+        public GraphicsDeviceManager GetGraphicsDeviceManager() => _graphics;
+
         // Resolution handling
         private Matrix _scaleMatrix;
         private Vector2 _screenOffset;
         private float _scale;
+        
+#if WINDOWS
+        private int _windowedWidth = GameConstants.ScreenWidth;
+        private int _windowedHeight = GameConstants.ScreenHeight;
+#endif
 
         public Game1()
         {
@@ -28,7 +38,7 @@ namespace Bagatelle.Shared
             IsMouseVisible = true;
             
             // Allow resizing on desktop to test responsiveness
-            Window.AllowUserResizing = true;
+            Window.AllowUserResizing = false;
             Window.ClientSizeChanged += OnResize;
         }
 
@@ -51,8 +61,37 @@ namespace Bagatelle.Shared
 
         private void OnResize(object sender, System.EventArgs e)
         {
+#if WINDOWS
+            // Save windowed size when not in fullscreen
+            if (!_graphics.IsFullScreen)
+            {
+                _windowedWidth = Window.ClientBounds.Width;
+                _windowedHeight = Window.ClientBounds.Height;
+            }
+#endif
             CalculateScale();
         }
+        
+#if WINDOWS
+        public void ToggleFullscreen()
+        {
+            if (_graphics.IsFullScreen)
+            {
+                // Switch to windowed
+                _graphics.IsFullScreen = false;
+                _graphics.PreferredBackBufferWidth = _windowedWidth;
+                _graphics.PreferredBackBufferHeight = _windowedHeight;
+            }
+            else
+            {
+                // Switch to fullscreen at desktop resolution
+                _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+                _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+                _graphics.IsFullScreen = true;
+            }
+            _graphics.ApplyChanges();
+        }
+#endif
 
         private void CalculateScale()
         {
@@ -91,6 +130,8 @@ namespace Bagatelle.Shared
             
             DrawHelper.Initialize(GraphicsDevice);
             Font = Content.Load<SpriteFont>("GameFont");
+            FontSmall = Content.Load<SpriteFont>("GameFontSmall");
+            FontLarge = Content.Load<SpriteFont>("GameFontLarge");
 
             Screens = new ScreenController(this);
             Screens.SetScreen(new IntroScreen(this));
@@ -108,7 +149,7 @@ namespace Bagatelle.Shared
         protected override void Draw(GameTime gameTime)
         {
             // Clear to BoardColor to match the game board (hides letterboxing)
-            GraphicsDevice.Clear(GameConstants.BoardColor);
+            GraphicsDevice.Clear(GameConstants.BoardDarkColor);
             
             // Draw screens with the scale matrix
             _spriteBatch.Begin(transformMatrix: _scaleMatrix);

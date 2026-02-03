@@ -20,3 +20,17 @@
 /processorParam:TextureFormat=Compressed
 /build:GameFont.spritefont
 
+#begin GameFontLarge.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:GameFontLarge.spritefont
+
+#begin GameFontSmall.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:GameFontSmall.spritefont
+

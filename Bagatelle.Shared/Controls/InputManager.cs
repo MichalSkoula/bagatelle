@@ -11,6 +11,7 @@ namespace Bagatelle.Shared.Controls
         // Resolution scaling
         private static float _scale = 1.0f;
         private static Vector2 _offset = Vector2.Zero;
+        private static bool _isActive;
 
         public static void SetScale(float scale, Vector2 offset)
         {
@@ -23,6 +24,7 @@ namespace Bagatelle.Shared.Controls
         {
             _previousMouse = _currentMouse;
             _currentMouse = Mouse.GetState();
+            _isActive = isActive;
 
             TouchInput.Update(isActive);
         }
@@ -35,8 +37,21 @@ namespace Bagatelle.Shared.Controls
         
         private static bool IsPointInArea(Point screenPoint, Rectangle gameArea)
         {
+            if (!_isActive)
+                return false;
+                
             Vector2 gamePos = TransformPosition(screenPoint);
             return gameArea.Contains(gamePos);
+        }
+        
+        private static bool IsMouseInGameBounds(Point mousePos)
+        {
+            if (!_isActive)
+                return false;
+                
+            Vector2 gamePos = TransformPosition(mousePos);
+            Rectangle gameBounds = new Rectangle(0, 0, GameConstants.ScreenWidth, GameConstants.ScreenHeight);
+            return gameBounds.Contains(gamePos);
         }
 
         // Charging (hold to charge power)
@@ -63,13 +78,16 @@ namespace Bagatelle.Shared.Controls
 
         // Mouse
         public static bool IsMouseLeftHeld() =>
+            _isActive && IsMouseInGameBounds(_currentMouse.Position) &&
             _currentMouse.LeftButton == ButtonState.Pressed;
 
         public static bool WasMouseLeftPressed() =>
+            _isActive && IsMouseInGameBounds(_currentMouse.Position) &&
             _currentMouse.LeftButton == ButtonState.Pressed &&
             _previousMouse.LeftButton == ButtonState.Released;
 
         public static bool WasMouseLeftReleased() =>
+            _isActive && IsMouseInGameBounds(_currentMouse.Position) &&
             _currentMouse.LeftButton == ButtonState.Released &&
             _previousMouse.LeftButton == ButtonState.Pressed;
 

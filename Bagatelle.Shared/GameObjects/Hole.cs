@@ -30,7 +30,7 @@ namespace Bagatelle.Shared.GameObjects
         public void Draw(SpriteBatch spriteBatch)
         {
             DrawHelper.DrawCircle(spriteBatch, Position, Radius, GameConstants.HoleColor);
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, Points.ToString(), Position, Color.White);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.FontSmall, Points.ToString(), Position - new Vector2(0, 30), Color.White);
         }
     }
 }

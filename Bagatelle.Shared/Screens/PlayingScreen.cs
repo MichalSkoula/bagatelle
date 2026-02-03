@@ -75,7 +75,7 @@ namespace Bagatelle.Shared.Screens
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            DrawHelper.DrawRectangle(spriteBatch, new Rectangle(0, 0, GameConstants.ScreenWidth, GameConstants.ScreenHeight), new Color(60, 40, 30));
+            DrawHelper.DrawRectangle(spriteBatch, new Rectangle(0, 0, GameConstants.ScreenWidth, GameConstants.ScreenHeight), GameConstants.BoardDarkColor);
 
             _board.Draw(spriteBatch);
             
@@ -96,8 +96,7 @@ namespace Bagatelle.Shared.Screens
             // Draw menu button
             DrawHelper.DrawRectangle(spriteBatch, _menuButton, Color.Black * 0.5f);
             DrawHelper.DrawBorder(spriteBatch, _menuButton, Color.White, 1);
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "MENU", 
-                new Vector2(_menuButton.Center.X, _menuButton.Center.Y), Color.White);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.FontSmall, "MENU", new Vector2(_menuButton.Center.X, _menuButton.Center.Y), Color.White);
         }
     }
 }

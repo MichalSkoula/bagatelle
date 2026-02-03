@@ -34,8 +34,8 @@ namespace Bagatelle.Shared.Screens
             InputManager.Update(Game.IsActive);
             _frameCount++;
 
-            // Ignore input for 60 frames to prevent click-through
-            if (_frameCount < 60)
+            // Ignore input for given frames to prevent click-through
+            if (_frameCount < LimitFrames)
                 return;
 
             if (InputManager.IsButtonPressed(_restartButton))

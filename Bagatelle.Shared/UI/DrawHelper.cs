@@ -1,14 +1,18 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace Bagatelle.Shared.UI
 {
     public static class DrawHelper
     {
         private static Texture2D _pixel;
+        private static Dictionary<int, Texture2D> _circleCache = new Dictionary<int, Texture2D>();
+        private static GraphicsDevice _device;
 
         public static void Initialize(GraphicsDevice device)
         {
+            _device = device;
             _pixel = new Texture2D(device, 1, 1);
             _pixel.SetData(new[] { Color.White });
         }
@@ -17,19 +21,36 @@ namespace Bagatelle.Shared.UI
 
         public static void DrawCircle(SpriteBatch sb, Vector2 center, float radius, Color color)
         {
-            int diameter = (int)(radius * 2);
+            int radiusKey = (int)radius;
+            if (!_circleCache.ContainsKey(radiusKey))
+            {
+                _circleCache[radiusKey] = CreateCircleTexture(radiusKey);
+            }
+
+            var texture = _circleCache[radiusKey];
+            sb.Draw(texture, new Vector2(center.X - radius, center.Y - radius), color);
+        }
+
+        private static Texture2D CreateCircleTexture(int radius)
+        {
+            int diameter = radius * 2;
+            Texture2D texture = new Texture2D(_device, diameter, diameter);
+            Color[] colorData = new Color[diameter * diameter];
+
+            float radiusSquared = radius * radius;
             for (int y = 0; y < diameter; y++)
             {
                 for (int x = 0; x < diameter; x++)
                 {
                     float dx = x - radius;
                     float dy = y - radius;
-                    if (dx * dx + dy * dy <= radius * radius)
-                    {
-                        sb.Draw(_pixel, new Rectangle((int)(center.X - radius + x), (int)(center.Y - radius + y), 1, 1), color);
-                    }
+                    int index = y * diameter + x;
+                    colorData[index] = (dx * dx + dy * dy <= radiusSquared) ? Color.White : Color.Transparent;
                 }
             }
+
+            texture.SetData(colorData);
+            return texture;
         }
 
         public static void DrawRectangle(SpriteBatch sb, Rectangle rect, Color color)

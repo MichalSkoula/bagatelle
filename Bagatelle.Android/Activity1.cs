@@ -25,6 +25,22 @@ namespace Bagatelle.Android
         {
             base.OnCreate(bundle);
 
+            // Enable rendering behind display cutouts (notches/camera holes)
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.P)
+            {
+                Window.Attributes.LayoutInDisplayCutoutMode = LayoutInDisplayCutoutMode.ShortEdges;
+            }
+
+            // Hide navigation and status bars for true fullscreen
+            Window.DecorView.SystemUiVisibility = (StatusBarVisibility)(
+                SystemUiFlags.LayoutStable |
+                SystemUiFlags.LayoutHideNavigation |
+                SystemUiFlags.LayoutFullscreen |
+                SystemUiFlags.HideNavigation |
+                SystemUiFlags.Fullscreen |
+                SystemUiFlags.ImmersiveSticky
+            );
+
             _game = new Game1();
             _view = _game.Services.GetService(typeof(View)) as View;
 

@@ -42,6 +42,7 @@ namespace Bagatelle.Shared
         public static readonly Color Player1Color = new Color(76, 175, 80);   // Green
         public static readonly Color Player2Color = new Color(33, 150, 243);  // Blue
         public static readonly Color BoardColor = new Color(139, 90, 43);     // Wood brown
+        public static readonly Color BoardDarkColor = new Color(60, 40, 30);  // Darker wood
         public static readonly Color PegColor = new Color(192, 192, 192);     // Silver
         public static readonly Color HoleColor = new Color(40, 40, 40);       // Dark
     }

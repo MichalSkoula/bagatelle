@@ -55,14 +55,26 @@ namespace Bagatelle.Shared.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            // Don't draw the launcher rectangle - it clutters the board
-            // Only draw charge indicator when charging
+            // Draw full-width charge indicator at bottom
             if (IsCharging)
             {
-                int chargeWidth = (int)(ChargeArea.Width * ChargePower);
-                var chargeRect = new Rectangle(ChargeArea.X, ChargeArea.Y - 10, chargeWidth, 8);
-                var chargeColor = Color.Lerp(Color.Green, Color.Red, ChargePower);
-                DrawHelper.DrawRectangle(spriteBatch, chargeRect, chargeColor);
+                int margin = 10;
+                int barHeight = 20;
+                int barY = GameConstants.ScreenHeight - barHeight - margin;
+                
+                // Background bar
+                var bgRect = new Rectangle(margin, barY, GameConstants.ScreenWidth - margin * 2, barHeight);
+                DrawHelper.DrawRectangle(spriteBatch, bgRect, Color.Black * 0.5f);
+                DrawHelper.DrawBorder(spriteBatch, bgRect, Color.White, 2);
+                
+                // Charge fill
+                int chargeWidth = (int)((bgRect.Width - 4) * ChargePower);
+                if (chargeWidth > 0)
+                {
+                    var chargeRect = new Rectangle(bgRect.X + 2, bgRect.Y + 2, chargeWidth, barHeight - 4);
+                    var chargeColor = Color.Lerp(Color.Green, Color.Red, ChargePower);
+                    DrawHelper.DrawRectangle(spriteBatch, chargeRect, chargeColor);
+                }
             }
         }
     }
