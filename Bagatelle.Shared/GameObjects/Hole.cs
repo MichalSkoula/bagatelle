@@ -29,8 +29,20 @@ namespace Bagatelle.Shared.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            DrawHelper.DrawCircle(spriteBatch, Position, Radius, GameConstants.HoleColor);
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.FontSmall, Points.ToString(), Position - new Vector2(0, 30), Color.White);
+            Texture2D sprite = Game1.HoleSprite;
+            float scale = (Radius * 2) / sprite.Width;
+            spriteBatch.Draw(
+                sprite,
+                Position,
+                null,
+                Color.White,
+                0f,
+                new Vector2(sprite.Width / 2f, sprite.Height / 2f),
+                scale,
+                SpriteEffects.None,
+                0f
+            );
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.FontSmall, Points.ToString(), Position - new Vector2(0, 30), Color.Beige);
         }
     }
 }

@@ -1,6 +1,16 @@
 # Bagatelle
 
+Monogame pinball-style game (awesome).
 
-## History of the game: 
-https://chatgpt.com/s/dr\_697fb152dd6c8191b9785244b7181be9
+## LINKS
 
+Homepage + Download: https://skoula.cz/bagatelle
+
+## LICENCE
+
+**AGPL3 https://github.com/MichalSkoula/bagatelle/blob/master/LICENSE.md**
+
+## CREDITS
+
+* balls https://opengameart.org/content/colored-spheres
+* always in our hearts https://www.mobygames.com/game/254074/bagatelle-touch/

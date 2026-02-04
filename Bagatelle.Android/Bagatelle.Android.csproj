@@ -7,7 +7,18 @@
     <ApplicationVersion>1</ApplicationVersion>
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <DefineConstants>$(DefineConstants);ANDROID</DefineConstants>
+    <PackageIcon>logo.png</PackageIcon>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\OneDrive\Projekty\Bagatelle\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" />
     <PackageReference Include="MonoGame.Framework.Android" Version="3.8.*" />

@@ -1,4 +1,3 @@
-using Bagatelle.Shared.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,15 +8,17 @@ namespace Bagatelle.Shared.GameObjects
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
         public Color Color { get; }
+        public Texture2D Sprite { get; }
         public float Radius { get; }
         public bool IsActive { get; set; }
         public bool IsInHole { get; set; }
         public float TimeAtLowSpeed { get; set; }
 
-        public Ball(Vector2 position, Color color)
+        public Ball(Vector2 position, Color color, Texture2D sprite)
         {
             Position = position;
             Color = color;
+            Sprite = sprite;
             Radius = GameConstants.BallRadius;
             Velocity = Vector2.Zero;
             IsActive = false;
@@ -54,7 +55,18 @@ namespace Bagatelle.Shared.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            DrawHelper.DrawCircle(spriteBatch, Position, Radius, Color);
+            float scale = (Radius * 2) / Sprite.Width;
+            spriteBatch.Draw(
+                Sprite,
+                Position,
+                null,
+                Color.White,
+                0f,
+                new Vector2(Sprite.Width / 2f, Sprite.Height / 2f),
+                scale,
+                SpriteEffects.None,
+                0f
+            );
         }
     }
 }

@@ -16,8 +16,11 @@ namespace Bagatelle.Shared
         public static ScreenController Screens { get; private set; }
         public static SpriteFont Font { get; private set; }
         public static SpriteFont FontSmall { get; private set; }
-
         public static SpriteFont FontLarge { get; private set; }
+        public static Texture2D BlueBallSprite { get; private set; }
+        public static Texture2D RedBallSprite { get; private set; }
+        public static Texture2D PegSprite { get; private set; }
+        public static Texture2D HoleSprite { get; private set; }
 
         public GraphicsDeviceManager GetGraphicsDeviceManager() => _graphics;
 
@@ -132,6 +135,10 @@ namespace Bagatelle.Shared
             Font = Content.Load<SpriteFont>("GameFont");
             FontSmall = Content.Load<SpriteFont>("GameFontSmall");
             FontLarge = Content.Load<SpriteFont>("GameFontLarge");
+            BlueBallSprite = Content.Load<Texture2D>("sphere-03");
+            RedBallSprite = Content.Load<Texture2D>("sphere-10");
+            PegSprite = Content.Load<Texture2D>("sphere-00");
+            HoleSprite = Content.Load<Texture2D>("sphere-12");
 
             Screens = new ScreenController(this);
             Screens.SetScreen(new IntroScreen(this));

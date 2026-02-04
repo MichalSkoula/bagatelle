@@ -25,7 +25,7 @@ namespace Bagatelle.Shared
         public const float PegRadius = 6f;
 
         // Hole
-        public const float HoleRadius = 20f;
+        public const float HoleRadius = 12f;
         public const float HoleAttractionRadius = 1.15f; // Multiplier of HoleRadius - smaller = harder
         public const float HoleEscapeSpeed = 500f; // Balls faster than this can escape - lower = harder
         public const float HoleInsidePullStrength = 4500f; // Pull force when inside hole
@@ -39,8 +39,8 @@ namespace Bagatelle.Shared
         public const float MaxChargeTime = 2f; // seconds
 
         // Colors
-        public static readonly Color Player1Color = new Color(76, 175, 80);   // Green
-        public static readonly Color Player2Color = new Color(33, 150, 243);  // Blue
+        public static readonly Color Player1Color = Color.RoyalBlue;               // Player 1 = Blue
+        public static readonly Color Player2Color = Color.Firebrick;          // Player 2 = Red
         public static readonly Color BoardColor = new Color(139, 90, 43);     // Wood brown
         public static readonly Color BoardDarkColor = new Color(60, 40, 30);  // Darker wood
         public static readonly Color PegColor = new Color(192, 192, 192);     // Silver

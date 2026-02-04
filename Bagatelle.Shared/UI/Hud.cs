@@ -32,9 +32,9 @@ namespace Bagatelle.Shared.UI
             if (_gameManager.State == GameState.GameOver)
             {
                 var rect = new Rectangle(
-                    GameConstants.ScreenWidth / 2 - 100,
+                    GameConstants.ScreenWidth / 2 - 110,
                     GameConstants.ScreenHeight / 2 - 30,
-                    200, 60);
+                    220, 55);
                 DrawHelper.DrawRectangle(spriteBatch, rect, Color.Black * 0.8f);
                 DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "GAME OVER",
                     new Vector2(rect.Center.X, rect.Center.Y), Color.Beige);
@@ -47,19 +47,35 @@ namespace Bagatelle.Shared.UI
 
             if (isActive)
             {
-                DrawHelper.DrawBorder(sb, new Rectangle(box.X - 2, box.Y - 2, box.Width + 4, box.Height + 4), Color.Yellow, 2);
+                DrawHelper.DrawBorder(sb, new Rectangle(box.X - 2, box.Y - 2, box.Width + 4, box.Height + 4), Color.Beige, 2);
             }
 
             DrawHelper.DrawRectangle(sb, box, Color.Black * 0.5f);
             DrawHelper.DrawRectangle(sb, new Rectangle(x + 5, y + 5, 20, 50), player.Color);
 
+            // Player name with color
+            //string playerName = $"P{player.Id}";
+            //sb.DrawString(Game1.FontSmall, playerName, new Vector2(x + 35, y + 5), player.Color);
+
             // Score
             sb.DrawString(Game1.Font, player.Score.ToString(), new Vector2(x + 35, y + 8), Color.White);
 
-            // Balls remaining
+            // Balls remaining - draw sprites instead of circles
             for (int i = 0; i < player.BallsRemaining; i++)
             {
-                DrawHelper.DrawCircle(sb, new Vector2(x + 40 + i * 15, y + 45), 5, player.Color);
+                float ballSize = 14f; // Diameter
+                float scale = ballSize / player.Sprite.Width;
+                sb.Draw(
+                    player.Sprite,
+                    new Vector2(x + 40 + i * 18, y + 46),
+                    null,
+                    Color.White,
+                    0f,
+                    new Vector2(player.Sprite.Width / 2f, player.Sprite.Height / 2f),
+                    scale,
+                    SpriteEffects.None,
+                    0f
+                );
             }
         }
     }

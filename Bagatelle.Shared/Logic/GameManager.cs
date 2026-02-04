@@ -31,9 +31,9 @@ namespace Bagatelle.Shared.Logic
             _board = board;
 
             Players = new Player[playerCount];
-            Players[0] = new Player(1, GameConstants.Player1Color);
+            Players[0] = new Player(1, GameConstants.Player1Color, Game1.BlueBallSprite);
             if (playerCount > 1)
-                Players[1] = new Player(2, GameConstants.Player2Color);
+                Players[1] = new Player(2, GameConstants.Player2Color, Game1.RedBallSprite);
 
             CurrentPlayerIndex = 0;
             State = GameState.WaitingToLaunch;
@@ -43,7 +43,7 @@ namespace Bagatelle.Shared.Logic
         private void PrepareBall()
         {
             var startPos = _board.GetBallStartPosition();
-            CurrentBall = new Ball(startPos, CurrentPlayer.Color);
+            CurrentBall = new Ball(startPos, CurrentPlayer.Color, CurrentPlayer.Sprite);
         }
 
         public void LaunchBall(float power)
