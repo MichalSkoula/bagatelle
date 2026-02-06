@@ -9,7 +9,7 @@
   <Identity
     Name="43177Michalkoula.Bagatelle"
     Publisher="CN=0FC37EF8-26B5-492F-87A3-AECF73C84ABB"
-    Version="1.0.1.0" />
+    Version="1.0.4.0" />
 
   <Properties>
     <DisplayName>Bagatelle</DisplayName>
@@ -32,11 +32,12 @@
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
         DisplayName="Bagatelle"
-        Description="Bagatelle.DX.Packaging"
+        Description="A classic bagatelle-style arcade game where every bounce counts and high scores are just one perfect shot away."
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png"  Square71x71Logo="Images\SmallTile.png" Square310x310Logo="Images\LargeTile.png">
+        </uap:DefaultTile >
         <uap:SplashScreen Image="Images\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
