@@ -31,7 +31,20 @@ namespace Bagatelle.Shared.Logic
                 }
             }
 
-            // 3. Handle Side and Bottom Walls (Rectangular part)
+            // 3. Check Channel Separator Wall in the gap between wall top and arc center.
+            // The wall starts at ChannelWallTopY (ArcCenter.Y - 40) but HandleMainAreaWalls
+            // only runs below ArcCenter.Y, leaving a gap where balls can pass through.
+            if (ball.Position.Y >= board.ChannelWallTopY && ball.Position.Y < board.ArcCenter.Y)
+            {
+                if (ball.Position.X < board.ChannelWallX &&
+                    ball.Position.X + ball.Radius > board.ChannelWallX)
+                {
+                    ball.Position = new Vector2(board.ChannelWallX - ball.Radius, ball.Position.Y);
+                    ball.Velocity = new Vector2(-Math.Abs(ball.Velocity.X) * GameConstants.BounceRestitution, ball.Velocity.Y);
+                }
+            }
+
+            // 4. Handle Side and Bottom Walls (Rectangular part)
             // Only if below the arc center level (where straight walls start)
             if (ball.Position.Y >= board.ArcCenter.Y)
             {
@@ -166,10 +179,9 @@ namespace Bagatelle.Shared.Logic
                 b1.IsInHole = false;
                 b2.IsInHole = false;
 
-                // Clear hole occupation if they were settled
-                // We need to check all holes to clear occupancy? 
-                // Or let Update loop handle it.
-                // Best is to let the Update loop clear it if they move out.
+                // Set ejection cooldown so balls don't get re-trapped immediately
+                b1.EjectionCooldown = 0.4f;
+                b2.EjectionCooldown = 0.4f;
 
                 // Exchange momentum (simplified elastic)
                 // v1' = v1 - 2*m2/(m1+m2) * dot(v1-v2, dir) * dir
@@ -196,6 +208,9 @@ namespace Bagatelle.Shared.Logic
 
         public static void ApplyHoleTrap(Ball ball, Hole hole)
         {
+            // Don't re-trap balls that were just ejected from a collision
+            if (ball.EjectionCooldown > 0f) return;
+
             // Check if hole has an occupant
             if (hole.Occupant != null && hole.Occupant != ball)
             {

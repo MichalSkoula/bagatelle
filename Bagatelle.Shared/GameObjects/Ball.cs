@@ -13,6 +13,7 @@ namespace Bagatelle.Shared.GameObjects
         public bool IsActive { get; set; }
         public bool IsInHole { get; set; }
         public float TimeAtLowSpeed { get; set; }
+        public float EjectionCooldown { get; set; }
 
         public Ball(Vector2 position, Color color, Texture2D sprite)
         {
@@ -24,11 +25,16 @@ namespace Bagatelle.Shared.GameObjects
             IsActive = false;
             IsInHole = false;
             TimeAtLowSpeed = 0f;
+            EjectionCooldown = 0f;
         }
 
         public void Update(float deltaTime)
         {
             if (!IsActive) return;
+
+            // Tick down ejection cooldown
+            if (EjectionCooldown > 0f)
+                EjectionCooldown -= deltaTime;
 
             // Apply gravity only when NOT locked in hole
             if (!IsInHole)

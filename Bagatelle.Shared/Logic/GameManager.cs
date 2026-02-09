@@ -95,7 +95,7 @@ namespace Bagatelle.Shared.Logic
                 {
                     // If occupant moved away or is moving, it's no longer occupying
                     float dist = Vector2.Distance(hole.Occupant.Position, hole.Position);
-                    if (dist > 3f || hole.Occupant.Velocity.Length() > 50f || !hole.Occupant.IsInHole)
+                    if (dist > 3f || hole.Occupant.Velocity.Length() > 50f || !hole.Occupant.IsInHole || hole.Occupant.EjectionCooldown > 0f)
                     {
                         hole.Occupant = null;
                     }
@@ -160,19 +160,12 @@ namespace Bagatelle.Shared.Logic
 
                 if (allStopped)
                 {
-                    // If Current Ball is stopped (and not in launcher, handled above)
-                    // End Turn.
-                    // Calculate Score for new settlements?
-                    // Let's assume points are awarded when the ball settles in a hole.
-                    // To avoid double counting, we could calculate score at end of turn based on where it is.
-
-                    // Wait, if next ball knocks it out, do we lose points?
-                    // Usually yes. Score is based on final position.
-                    // So we update score continuously or at end of all balls?
-                    // Standard: Score is sum of balls in holes.
-
-                    UpdateScores();
                     EndTurn();
+                }
+                else
+                {
+                    // Update scores continuously so ejections are reflected immediately
+                    UpdateScores();
                 }
             }
         }
@@ -204,6 +197,8 @@ namespace Bagatelle.Shared.Logic
 
         private void EndTurn()
         {
+            UpdateScores();
+
             // CurrentBall is already in BallsOnBoard list.
 
             // Check game over
