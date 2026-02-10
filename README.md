@@ -1,10 +1,25 @@
 # Bagatelle
 
-Monogame pinball-style game (awesome).
+Open source Monogame pinball-style game (awesome).
 
 ## LINKS
 
 Homepage + Download: https://skoula.cz/bagatelle
+
+## HOW TO BUILD
+
+### Prerequisites
+
+* .NET 10 SDK: https://dotnet.microsoft.com/en-us/download
+* Libre Baskerville font
+
+### Windows
+
+Bagatelle.DX> dotnet publish -c Release -r win-x64
+
+### Linux
+
+Bagatelle.GL> dotnet publish -c Release -r linux-x64
 
 ## LICENCE
 
@@ -13,4 +28,8 @@ Homepage + Download: https://skoula.cz/bagatelle
 ## CREDITS
 
 * balls https://opengameart.org/content/colored-spheres
+* tap sound https://opengameart.org/content/tap-sound-1
+* tap sounds https://opengameart.org/content/100-cc0-sfx
+* music https://opengameart.org/content/lofi-hip-hop
+* font Libre Baskerville
 * always in our hearts https://www.mobygames.com/game/254074/bagatelle-touch/

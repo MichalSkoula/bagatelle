@@ -2,9 +2,11 @@
 using Bagatelle.Shared.Screens;
 using Bagatelle.Shared.UI;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
+using Microsoft.Xna.Framework.Media;
 
 namespace Bagatelle.Shared
 {
@@ -21,6 +23,12 @@ namespace Bagatelle.Shared
         public static Texture2D RedBallSprite { get; private set; }
         public static Texture2D PegSprite { get; private set; }
         public static Texture2D HoleSprite { get; private set; }
+        public static SoundEffect TapSound { get; private set; }
+        public static SoundEffect TapSound2 { get; private set; }
+        public static SoundEffect TapSound3 { get; private set; }
+        public static SoundEffect SpringSound { get; private set; }
+        public static SoundEffect HoleSound { get; private set; }
+        public static Song Song1 { get; private set; }
 
         public GraphicsDeviceManager GetGraphicsDeviceManager() => _graphics;
 
@@ -29,7 +37,7 @@ namespace Bagatelle.Shared
         private Vector2 _screenOffset;
         private float _scale;
 
-#if WINDOWS
+#if !ANDROID
         private int _windowedWidth = GameConstants.ScreenWidth;
         private int _windowedHeight = GameConstants.ScreenHeight;
 #endif
@@ -47,7 +55,7 @@ namespace Bagatelle.Shared
 
         protected override void Initialize()
         {
-#if WINDOWS
+#if !ANDROID
             _graphics.PreferredBackBufferWidth = GameConstants.ScreenWidth;
             _graphics.PreferredBackBufferHeight = GameConstants.ScreenHeight;
             _graphics.ApplyChanges();
@@ -64,7 +72,7 @@ namespace Bagatelle.Shared
 
         private void OnResize(object sender, System.EventArgs e)
         {
-#if WINDOWS
+#if !ANDROID
             // Save windowed size when not in fullscreen
             if (!_graphics.IsFullScreen)
             {
@@ -75,7 +83,7 @@ namespace Bagatelle.Shared
             CalculateScale();
         }
 
-#if WINDOWS
+#if !ANDROID
         public void ToggleFullscreen()
         {
             if (_graphics.IsFullScreen)
@@ -139,6 +147,12 @@ namespace Bagatelle.Shared
             RedBallSprite = Content.Load<Texture2D>("sphere-10");
             PegSprite = Content.Load<Texture2D>("sphere-00");
             HoleSprite = Content.Load<Texture2D>("sphere-12");
+            TapSound = Content.Load<SoundEffect>("clicksound1");
+            TapSound2 = Content.Load<SoundEffect>("wooden_03");
+            TapSound3 = Content.Load<SoundEffect>("hit_01");
+            SpringSound = Content.Load<SoundEffect>("spring_02");
+            HoleSound = Content.Load<SoundEffect>("weird_01");
+            Song1 = Content.Load<Song>("lofihiphop");
 
             Screens = new ScreenController(this);
             Screens.SetScreen(new IntroScreen(this));

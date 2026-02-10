@@ -18,7 +18,7 @@ namespace Bagatelle.Shared.Screens
 
         public override void LoadContent()
         {
-            int buttonWidth = 240;
+            int buttonWidth = 280;
             int buttonHeight = 60;
             int centerX = GameConstants.ScreenWidth / 2 - buttonWidth / 2;
             int startY = 300;
@@ -28,7 +28,7 @@ namespace Bagatelle.Shared.Screens
             _twoPlayerButton = new Rectangle(centerX, startY + spacing, buttonWidth, buttonHeight);
             _creditsButton = new Rectangle(centerX, startY + spacing * 2, buttonWidth, buttonHeight);
 
-#if WINDOWS
+#if !ANDROID
             _fullscreenButton = new Rectangle(centerX, startY + spacing * 3, buttonWidth, buttonHeight);
             _exitButton = new Rectangle(centerX, startY + spacing * 4, buttonWidth, buttonHeight);
 #else
@@ -52,7 +52,7 @@ namespace Bagatelle.Shared.Screens
                 Game1.Screens.SetScreen(new PlayingScreen(Game, 2));
             else if (InputManager.IsButtonPressed(_creditsButton))
                 Game1.Screens.SetScreen(new CreditsScreen(Game));
-#if WINDOWS
+#if !ANDROID
             else if (InputManager.IsButtonPressed(_fullscreenButton))
             {
                 ((Game1)Game).ToggleFullscreen();
@@ -75,7 +75,7 @@ namespace Bagatelle.Shared.Screens
             DrawButton(spriteBatch, _twoPlayerButton, "2 PLAYERS");
             DrawButton(spriteBatch, _creditsButton, "CREDITS");
 
-#if WINDOWS
+#if !ANDROID
             var graphics = ((Game1)Game).GetGraphicsDeviceManager();
             string fsText = graphics.IsFullScreen ? "WINDOWED" : "FULLSCREEN";
             DrawButton(spriteBatch, _fullscreenButton, fsText);

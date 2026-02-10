@@ -6,16 +6,15 @@ namespace Bagatelle.Shared.Logic
 {
     public static class Physics
     {
-        public static void HandleBoardCollision(Ball ball, Board board)
+        public static bool HandleBoardCollision(Ball ball, Board board)
         {
             // If ball is very low, let it fall out (below launcher area)
-            if (ball.Position.Y > board.MainArea.Bottom + 50) return;
+            if (ball.Position.Y > board.MainArea.Bottom + 50) return false;
 
             // 1. Check if inside Launch Channel (before it enters the arc)
             if (IsInLaunchChannel(ball, board))
             {
-                HandleChannelCollision(ball, board.LaunchChannel);
-                return;
+                return HandleChannelCollision(ball, board.LaunchChannel);
             }
 
             // 2. Check Arc Collision (Top Semi-circle)
@@ -27,7 +26,7 @@ namespace Bagatelle.Shared.Logic
                 {
                     // If we hit the arc, we don't hit the side walls (as arc covers sides at top)
                     // But we might be transiting from channel
-                    return;
+                    return true;
                 }
             }
 
@@ -41,6 +40,7 @@ namespace Bagatelle.Shared.Logic
                 {
                     ball.Position = new Vector2(board.ChannelWallX - ball.Radius, ball.Position.Y);
                     ball.Velocity = new Vector2(-Math.Abs(ball.Velocity.X) * GameConstants.BounceRestitution, ball.Velocity.Y);
+                    return true;
                 }
             }
 
@@ -48,8 +48,10 @@ namespace Bagatelle.Shared.Logic
             // Only if below the arc center level (where straight walls start)
             if (ball.Position.Y >= board.ArcCenter.Y)
             {
-                HandleMainAreaWalls(ball, board.MainArea, board.ChannelWallX);
+                return HandleMainAreaWalls(ball, board.MainArea, board.ChannelWallX);
             }
+
+            return false;
         }
 
         public static bool IsInLaunchChannel(Ball ball, Board board)
@@ -61,13 +63,16 @@ namespace Bagatelle.Shared.Logic
                    ball.Position.Y > board.ChannelWallTopY;
         }
 
-        private static void HandleChannelCollision(Ball ball, Rectangle channel)
+        private static bool HandleChannelCollision(Ball ball, Rectangle channel)
         {
+            bool hit = false;
+
             // Left wall of channel (Separator)
             if (ball.Position.X - ball.Radius < channel.Left)
             {
                 ball.Position = new Vector2(channel.Left + ball.Radius, ball.Position.Y);
                 ball.Velocity = new Vector2(Math.Abs(ball.Velocity.X) * GameConstants.BounceRestitution, ball.Velocity.Y);
+                hit = true;
             }
 
             // Right wall of channel (Outer Board Wall)
@@ -75,6 +80,7 @@ namespace Bagatelle.Shared.Logic
             {
                 ball.Position = new Vector2(channel.Right - ball.Radius, ball.Position.Y);
                 ball.Velocity = new Vector2(-Math.Abs(ball.Velocity.X) * GameConstants.BounceRestitution, ball.Velocity.Y);
+                hit = true;
             }
 
             // Bottom of channel (Launcher face)
@@ -86,7 +92,10 @@ namespace Bagatelle.Shared.Logic
                 ball.Position = new Vector2(ball.Position.X, launcherFloorY - ball.Radius);
                 // Damping bounce on the launcher
                 ball.Velocity = new Vector2(ball.Velocity.X * 0.9f, -ball.Velocity.Y * 0.4f);
+                hit = true;
             }
+
+            return hit;
         }
 
         private static bool HandleArcCollision(Ball ball, Vector2 arcCenter, float arcRadius)
@@ -124,13 +133,16 @@ namespace Bagatelle.Shared.Logic
             return false;
         }
 
-        private static void HandleMainAreaWalls(Ball ball, Rectangle mainArea, int channelWallX)
+        private static bool HandleMainAreaWalls(Ball ball, Rectangle mainArea, int channelWallX)
         {
+            bool hit = false;
+
             // Left Outer Wall
             if (ball.Position.X - ball.Radius < mainArea.Left)
             {
                 ball.Position = new Vector2(mainArea.Left + ball.Radius, ball.Position.Y);
                 ball.Velocity = new Vector2(Math.Abs(ball.Velocity.X) * GameConstants.BounceRestitution, ball.Velocity.Y);
+                hit = true;
             }
 
             // Right Wall of Play Area (which is the Channel Separator)
@@ -145,6 +157,7 @@ namespace Bagatelle.Shared.Logic
                 {
                     ball.Position = new Vector2(channelWallX - ball.Radius, ball.Position.Y);
                     ball.Velocity = new Vector2(-Math.Abs(ball.Velocity.X) * GameConstants.BounceRestitution, ball.Velocity.Y);
+                    hit = true;
                 }
             }
             // Note: Right Outer Wall for the channel is handled in HandleChannelCollision
@@ -157,10 +170,13 @@ namespace Bagatelle.Shared.Logic
                 ball.Position = new Vector2(ball.Position.X, mainArea.Bottom - ball.Radius);
                 float xFriction = 0.8f;
                 ball.Velocity = new Vector2(ball.Velocity.X * xFriction, -Math.Abs(ball.Velocity.Y) * 0.5f);
+                hit = true;
             }
+
+            return hit;
         }
 
-        public static void HandleBallCollision(Ball b1, Ball b2)
+        public static bool HandleBallCollision(Ball b1, Ball b2)
         {
             Vector2 direction = b1.Position - b2.Position;
             float distance = direction.Length();
@@ -198,7 +214,10 @@ namespace Bagatelle.Shared.Logic
                 // Add restitution
                 b1.Velocity *= 0.9f;
                 b2.Velocity *= 0.9f;
+
+                return true;
             }
+            return false;
         }
 
         public static Hole GetHoleContaining(Ball ball, System.Collections.Generic.List<Hole> holes)
@@ -275,14 +294,14 @@ namespace Bagatelle.Shared.Logic
             }
         }
 
-        public static void HandlePegCollision(Ball ball, Peg peg)
+        public static bool HandlePegCollision(Ball ball, Peg peg)
         {
-            if (!peg.CollidesWith(ball)) return;
+            if (!peg.CollidesWith(ball)) return false;
 
             Vector2 direction = ball.Position - peg.Position;
             float distance = direction.Length();
 
-            if (distance == 0) return;
+            if (distance == 0) return false;
 
             direction.Normalize();
 
@@ -295,7 +314,9 @@ namespace Bagatelle.Shared.Logic
             {
                 ball.Velocity -= 2 * dot * direction;
                 ball.Velocity *= GameConstants.BounceRestitution;
+                return true;
             }
+            return false;
         }
 
         public static Hole CheckHoleCollision(Ball ball, System.Collections.Generic.List<Hole> holes)

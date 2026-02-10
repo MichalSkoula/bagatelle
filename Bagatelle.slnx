@@ -17,5 +17,6 @@
     <Deploy />
   </Project>
   <Project Path="Bagatelle.DX/Bagatelle.DX.csproj" />
+  <Project Path="Bagatelle.GL/Bagatelle.GL.csproj" Id="823b71af-00bf-441d-813c-6984d446fa20" />
   <Project Path="Bagatelle.Shared/Bagatelle.Shared.shproj" />
 </Solution>

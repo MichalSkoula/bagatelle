@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin clicksound1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:clicksound1.wav
+
 #begin GameFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -33,6 +39,18 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:GameFontSmall.spritefont
+
+#begin hit_01.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:hit_01.ogg
+
+#begin lofihiphop.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:lofihiphop.ogg
 
 #begin sphere-00.png
 /importer:TextureImporter
@@ -105,4 +123,22 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sphere-17.png
+
+#begin spring_02.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:spring_02.ogg
+
+#begin weird_01.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:weird_01.ogg
+
+#begin wooden_03.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:wooden_03.ogg
 

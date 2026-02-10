@@ -4,6 +4,7 @@ using Bagatelle.Shared.Logic;
 using Bagatelle.Shared.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 
 namespace Bagatelle.Shared.Screens
 {
@@ -28,6 +29,10 @@ namespace Bagatelle.Shared.Screens
 
             // Menu button at top, centered
             _menuButton = new Rectangle(GameConstants.ScreenWidth / 2 - 45, 10, 90, 40);
+
+            MediaPlayer.Volume = 0.5f;
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(Game1.Song1);
         }
 
         public override void Update(GameTime gameTime)
@@ -97,6 +102,10 @@ namespace Bagatelle.Shared.Screens
             DrawHelper.DrawRectangle(spriteBatch, _menuButton, Color.Beige * 0.2f);
             DrawHelper.DrawBorder(spriteBatch, _menuButton, Color.Beige, 2);
             DrawHelper.DrawCenteredString(spriteBatch, Game1.FontSmall, "MENU", new Vector2(_menuButton.Center.X, _menuButton.Center.Y), Color.Beige);
+        }
+        public override void UnloadContent()
+        {
+            MediaPlayer.Stop();
         }
     }
 }

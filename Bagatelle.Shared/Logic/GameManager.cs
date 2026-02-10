@@ -55,6 +55,8 @@ namespace Bagatelle.Shared.Logic
             State = GameState.BallInPlay;
             BallsOnBoard.Add(CurrentBall);
             _ballEnteredPlayArea = false;
+            float springVolume = MathHelper.Clamp(power / GameConstants.MaxLaunchPower, 0.1f, 1f) * 0.9f;
+            Game1.SpringSound.Play(springVolume, 0f, 0f);
         }
 
         public void Update(float deltaTime)
@@ -68,23 +70,34 @@ namespace Bagatelle.Shared.Logic
                 ball.Update(deltaTime);
 
                 // Ball-Board Collisions
-                Physics.HandleBoardCollision(ball, _board);
+                float speedBeforeWall = ball.Velocity.Length();
+                if (Physics.HandleBoardCollision(ball, _board) && speedBeforeWall > GameConstants.BallLowSpeedThreshold)
+                {
+                    float volume = MathHelper.Clamp(speedBeforeWall / GameConstants.MaxLaunchPower, 0.05f, 1f) * 0.75f;
+                    Game1.TapSound.Play(volume, 0f, 0f);
+                }
 
                 // Ball-Peg Collisions
                 foreach (var peg in _board.Pegs)
                 {
-                    Physics.HandlePegCollision(ball, peg);
+                    float speedBeforePeg = ball.Velocity.Length();
+                    if (Physics.HandlePegCollision(ball, peg))
+                    {
+                        float volume = MathHelper.Clamp(speedBeforePeg / GameConstants.MaxLaunchPower, 0.05f, 1f) * 0.75f;
+                        Game1.TapSound2.Play(volume, 0f, 0f);
+                    }
                 }
 
                 // Ball-Ball Collisions
                 foreach (var other in BallsOnBoard)
                 {
                     if (ball == other) continue;
-                    Physics.HandleBallCollision(ball, other);
-
-                    // If collision happened, we might have knocked a ball out of a hole
-                    // We need to update hole occupancy
-                    // We can do this by checking distance to holes in next frame or here
+                    float speedBeforeBall = (ball.Velocity - other.Velocity).Length();
+                    if (Physics.HandleBallCollision(ball, other))
+                    {
+                        float volume = MathHelper.Clamp(speedBeforeBall / GameConstants.MaxLaunchPower, 0.05f, 1f) * 0.75f;
+                        Game1.TapSound3.Play(volume, 0f, 0f);
+                    }
                 }
             }
 
@@ -149,8 +162,11 @@ namespace Bagatelle.Shared.Logic
                     var hole = Physics.GetHoleContaining(ball, _board.Holes);
                     if (hole != null)
                     {
+                        bool wasInHole = ball.IsInHole;
                         // Apply hole physics (trap)
                         Physics.ApplyHoleTrap(ball, hole);
+                        if (!wasInHole && ball.IsInHole)
+                            Game1.HoleSound.Play(0.75f, 0f, 0f);
                     }
                     else
                     {
