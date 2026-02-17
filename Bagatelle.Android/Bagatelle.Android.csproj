@@ -3,12 +3,18 @@
     <TargetFramework>net10.0-android</TargetFramework>
     <SupportedOSPlatformVersion>23</SupportedOSPlatformVersion>
     <OutputType>Exe</OutputType>
-    <ApplicationId>com.companyname.Bagatelle.Android</ApplicationId>
+    <ApplicationId>cz.skoula.bagatelle</ApplicationId>
     <ApplicationVersion>1</ApplicationVersion>
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationTitle>Bagatelle</ApplicationTitle>
     <DefineConstants>$(DefineConstants);ANDROID</DefineConstants>
     <PackageIcon>logo.png</PackageIcon>
     <ApplicationIcon>logo.ico</ApplicationIcon>
+	  <AndroidPackageFormat>aab</AndroidPackageFormat>
+	  <AndroidUseAapt2>True</AndroidUseAapt2>
+	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+	  <RunAOTCompilation>False</RunAOTCompilation>
+	  <PublishTrimmed>False</PublishTrimmed>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="logo.ico" />
@@ -22,7 +28,6 @@
   <ItemGroup>
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" />
     <PackageReference Include="MonoGame.Framework.Android" Version="3.8.*" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.8.1" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="CollectPackageReferences">
     <Message Text="Restoring dotnet tools (this might take a while depending on your internet speed and should only happen upon building your project for the first time, or after upgrading MonoGame, or clearing your nuget cache)" Importance="High" />

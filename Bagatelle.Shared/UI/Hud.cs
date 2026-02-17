@@ -58,7 +58,7 @@ namespace Bagatelle.Shared.UI
             //sb.DrawString(Game1.FontSmall, playerName, new Vector2(x + 35, y + 5), player.Color);
 
             // Score
-            sb.DrawString(Game1.Font, player.Score.ToString(), new Vector2(x + 35, y + 8), Color.White);
+            sb.DrawString(Game1.Font, player.Score.ToString(), new Vector2(x + 35, y), Color.Beige);
 
             // Balls remaining - draw sprites instead of circles
             for (int i = 0; i < player.BallsRemaining; i++)

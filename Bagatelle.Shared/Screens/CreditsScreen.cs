@@ -2,10 +2,9 @@ using Bagatelle.Shared.Controls;
 using Bagatelle.Shared.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Diagnostics;
 #if ANDROID
-using Xamarin.Essentials;
+using Android.Content;
 #endif
 
 namespace Bagatelle.Shared.Screens
@@ -60,7 +59,10 @@ namespace Bagatelle.Shared.Screens
             try
             {
 #if ANDROID
-                _ = Browser.OpenAsync(new Uri(url), BrowserLaunchMode.SystemPreferred);
+                var uri = global::Android.Net.Uri.Parse(url);
+                var intent = new Intent(Intent.ActionView, uri);
+                intent.AddFlags(ActivityFlags.NewTask);
+                global::Android.App.Application.Context.StartActivity(intent);
 #else
                 Process.Start(new ProcessStartInfo
                 {
