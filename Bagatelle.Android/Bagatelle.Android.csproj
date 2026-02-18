@@ -13,17 +13,10 @@
 	  <AndroidPackageFormat>aab</AndroidPackageFormat>
 	  <AndroidUseAapt2>True</AndroidUseAapt2>
 	  <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <PublishTrimmed>False</PublishTrimmed>
+	  <TrimMode>partial</TrimMode>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="logo.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="D:\OneDrive\Projekty\Bagatelle\logo.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" />

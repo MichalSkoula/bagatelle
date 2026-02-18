@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="cz.skoula.bagatelle" android:versionCode="5" android:versionName="1.3">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="cz.skoula.bagatelle" android:versionCode="6" android:versionName="1.4">
 	<uses-feature android:glEsVersion="0x00020000" android:required="true" />
 	<application android:label="Bagatelle"></application>
 </manifest>
