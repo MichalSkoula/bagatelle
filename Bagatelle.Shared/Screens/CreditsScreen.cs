@@ -23,7 +23,7 @@ namespace Bagatelle.Shared.Screens
             // Calculate link bounds
             string linkText = "skoula.cz/bagatelle";
             int centerX = GameConstants.ScreenWidth / 2;
-            Vector2 linkPos = new Vector2(centerX, 560);
+            Vector2 linkPos = new Vector2(centerX, 1120);
             Vector2 linkSize = Game1.Font.MeasureString(linkText);
             _linkBounds = new Rectangle(
                 (int)(linkPos.X - linkSize.X / 2),
@@ -82,18 +82,18 @@ namespace Bagatelle.Shared.Screens
             DrawHelper.DrawRectangle(spriteBatch, new Rectangle(0, 0, GameConstants.ScreenWidth, GameConstants.ScreenHeight), GameConstants.BoardDarkColor);
 
             int centerX = GameConstants.ScreenWidth / 2;
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "CREDITS", new Vector2(centerX, 150), Color.White);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "CREDITS", new Vector2(centerX, 300), Color.White);
 
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Inspired by the legendary", new Vector2(centerX, 380), Color.Beige);
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Symbian game", new Vector2(centerX, 420), Color.Beige);
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Bagatelle Touch (2009)", new Vector2(centerX, 460), Color.Beige);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Inspired by the legendary", new Vector2(centerX, 760), Color.Beige);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Symbian game", new Vector2(centerX, 840), Color.Beige);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Bagatelle Touch (2009)", new Vector2(centerX, 920), Color.Beige);
 
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "(c) Michal Skoula", new Vector2(centerX, 520), Color.Beige);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "(c) Michal Skoula", new Vector2(centerX, 1040), Color.Beige);
 
             // Draw clickable link
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "skoula.cz/bagatelle", new Vector2(centerX, 560), Color.LightBlue);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "skoula.cz/bagatelle", new Vector2(centerX, 1120), Color.LightBlue);
 
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Tap to return", new Vector2(centerX, 660), Color.Beige);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Tap to return", new Vector2(centerX, 1320), Color.Beige);
         }
     }
 }

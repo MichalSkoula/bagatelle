@@ -20,12 +20,12 @@ namespace Bagatelle.Shared.Screens
 
         public override void LoadContent()
         {
-            int buttonWidth = 200;
-            int buttonHeight = 60;
+            int buttonWidth = 400;
+            int buttonHeight = 120;
             int centerX = GameConstants.ScreenWidth / 2 - buttonWidth / 2;
 
-            _restartButton = new Rectangle(centerX, 450, buttonWidth, buttonHeight);
-            _menuButton = new Rectangle(centerX, 530, buttonWidth, buttonHeight);
+            _restartButton = new Rectangle(centerX, 900, buttonWidth, buttonHeight);
+            _menuButton = new Rectangle(centerX, 1060, buttonWidth, buttonHeight);
             _frameCount = 0;
         }
 
@@ -50,13 +50,13 @@ namespace Bagatelle.Shared.Screens
 
             int centerX = GameConstants.ScreenWidth / 2;
 
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "GAME OVER", new Vector2(centerX, 150), Color.White);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "GAME OVER", new Vector2(centerX, 300), Color.White);
 
             for (int i = 0; i < _gameManager.PlayerCount; i++)
             {
                 var player = _gameManager.Players[i];
                 string text = $"Player {i + 1}: {player.Score}";
-                DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, text, new Vector2(centerX, 250 + i * 50), player.Color);
+                DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, text, new Vector2(centerX, 500 + i * 100), player.Color);
             }
 
             if (_gameManager.PlayerCount > 1)
@@ -65,7 +65,7 @@ namespace Bagatelle.Shared.Screens
                 string winText = _gameManager.Players[0].Score == _gameManager.Players[1].Score
                     ? "TIE!"
                     : $"Player {winner.Id} wins!";
-                DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, winText, new Vector2(centerX, 380), Color.Yellow);
+                DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, winText, new Vector2(centerX, 760), Color.Yellow);
             }
 
             DrawButton(spriteBatch, _restartButton, "RESTART");
@@ -75,7 +75,7 @@ namespace Bagatelle.Shared.Screens
         private void DrawButton(SpriteBatch spriteBatch, Rectangle rect, string text)
         {
             DrawHelper.DrawRectangle(spriteBatch, rect, Color.White * 0.2f);
-            DrawHelper.DrawBorder(spriteBatch, rect, Color.White, 2);
+            DrawHelper.DrawBorder(spriteBatch, rect, Color.White, 4);
             DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, text, new Vector2(rect.Center.X, rect.Center.Y), Color.White);
         }
     }

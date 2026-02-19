@@ -56,8 +56,15 @@ namespace Bagatelle.Shared
         protected override void Initialize()
         {
 #if !ANDROID
-            _graphics.PreferredBackBufferWidth = GameConstants.ScreenWidth;
-            _graphics.PreferredBackBufferHeight = GameConstants.ScreenHeight;
+            // Fit window to desktop - use up to 85% of screen height
+            var display = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
+            float maxHeight = display.Height * 0.85f;
+            float scale = System.Math.Min(1f, maxHeight / GameConstants.ScreenHeight);
+            _windowedWidth = (int)(GameConstants.ScreenWidth * scale);
+            _windowedHeight = (int)(GameConstants.ScreenHeight * scale);
+
+            _graphics.PreferredBackBufferWidth = _windowedWidth;
+            _graphics.PreferredBackBufferHeight = _windowedHeight;
             _graphics.ApplyChanges();
 #else
             // On Android, let it use the device resolution

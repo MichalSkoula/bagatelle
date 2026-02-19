@@ -11,8 +11,8 @@ namespace Bagatelle.Shared.GameObjects
         public float ChargeTime { get; private set; }
         public bool IsCharging { get; private set; }
 
-        private const int Width = 80;
-        private const int Height = 40;
+        private const int Width = 160;
+        private const int Height = 80;
 
         public Launcher(Vector2 position)
         {
@@ -58,20 +58,20 @@ namespace Bagatelle.Shared.GameObjects
             // Draw full-width charge indicator at bottom
             if (IsCharging)
             {
-                int margin = 20;
-                int barHeight = 20;
+                int margin = 40;
+                int barHeight = 40;
                 int barY = GameConstants.ScreenHeight - barHeight - margin;
 
                 // Background bar
                 var bgRect = new Rectangle(margin, barY, GameConstants.ScreenWidth - margin * 2, barHeight);
                 DrawHelper.DrawRectangle(spriteBatch, bgRect, Color.Black * 0.5f);
-                DrawHelper.DrawBorder(spriteBatch, bgRect, Color.White, 2);
+                DrawHelper.DrawBorder(spriteBatch, bgRect, Color.Beige, 4);
 
                 // Charge fill
-                int chargeWidth = (int)((bgRect.Width - 4) * ChargePower);
+                int chargeWidth = (int)((bgRect.Width - 8) * ChargePower);
                 if (chargeWidth > 0)
                 {
-                    var chargeRect = new Rectangle(bgRect.X + 2, bgRect.Y + 2, chargeWidth, barHeight - 4);
+                    var chargeRect = new Rectangle(bgRect.X + 4, bgRect.Y + 4, chargeWidth, barHeight - 8);
                     var chargeColor = Color.Lerp(Color.Green, Color.Red, ChargePower);
                     DrawHelper.DrawRectangle(spriteBatch, chargeRect, chargeColor);
                 }

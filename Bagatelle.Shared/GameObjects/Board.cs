@@ -20,9 +20,9 @@ namespace Bagatelle.Shared.GameObjects
         public List<Peg> Pegs { get; }
         public Launcher Launcher { get; }
 
-        private const int Margin = 20;
-        private const int TopMargin = 80; // More space for UI - scores and menu button
-        private const int ChannelWidth = 40;
+        private const int Margin = 40;
+        private const int TopMargin = 160; // More space for UI - scores and menu button
+        private const int ChannelWidth = 80;
 
         public Board()
         {
@@ -49,7 +49,7 @@ namespace Bagatelle.Shared.GameObjects
                 boardLeft,
                 (int)ArcCenter.Y,
                 boardWidth,
-                screenH - (int)ArcCenter.Y - 60
+                screenH - (int)ArcCenter.Y - 120
             );
 
             // 2. Define the Launch Channel
@@ -58,7 +58,7 @@ namespace Bagatelle.Shared.GameObjects
 
             // The channel wall shouldn't go all the way to the top of the arc.
             // It should stop to let the ball curve around.
-            ChannelWallTopY = ArcCenter.Y - 40;
+            ChannelWallTopY = ArcCenter.Y - 80;
 
             // Logical rect for channel (used for input/logic mostly)
             LaunchChannel = new Rectangle(
@@ -72,39 +72,39 @@ namespace Bagatelle.Shared.GameObjects
             Holes = CreateHoles();
             Pegs = CreatePegs();
 
-            Launcher = new Launcher(new Vector2(LaunchChannel.Center.X, MainArea.Bottom + 10));
+            Launcher = new Launcher(new Vector2(LaunchChannel.Center.X, MainArea.Bottom + 20));
         }
 
         private List<Hole> CreateHoles()
         {
             var holes = new List<Hole>();
             float centerX = (Margin + ChannelWallX) / 2f;
-            float startY = ArcCenter.Y - 60;
-            float rowSpacing = 110;
+            float startY = ArcCenter.Y - 120;
+            float rowSpacing = 220;
 
             // Row 1: 100 points
             holes.Add(new Hole(new Vector2(centerX, startY), 100));
 
             // Row 2: 75 points
-            holes.Add(new Hole(new Vector2(centerX - 105, startY + rowSpacing), 75));
-            holes.Add(new Hole(new Vector2(centerX + 105, startY + rowSpacing), 75));
+            holes.Add(new Hole(new Vector2(centerX - 210, startY + rowSpacing), 75));
+            holes.Add(new Hole(new Vector2(centerX + 210, startY + rowSpacing), 75));
 
             // Row 3: 50 points
             float row3Y = startY + rowSpacing * 2;
-            holes.Add(new Hole(new Vector2(centerX - 140, row3Y), 50));
+            holes.Add(new Hole(new Vector2(centerX - 280, row3Y), 50));
             holes.Add(new Hole(new Vector2(centerX, row3Y), 50));
-            holes.Add(new Hole(new Vector2(centerX + 140, row3Y), 50));
+            holes.Add(new Hole(new Vector2(centerX + 280, row3Y), 50));
 
             // Row 4: 25 points
             float row4Y = startY + rowSpacing * 3;
-            holes.Add(new Hole(new Vector2(centerX - 105, row4Y), 25));
-            holes.Add(new Hole(new Vector2(centerX + 105, row4Y), 25));
+            holes.Add(new Hole(new Vector2(centerX - 210, row4Y), 25));
+            holes.Add(new Hole(new Vector2(centerX + 210, row4Y), 25));
 
             // Row 5: 25-10-25
             float row5Y = startY + rowSpacing * 4;
-            holes.Add(new Hole(new Vector2(centerX - 140, row5Y), 25));
+            holes.Add(new Hole(new Vector2(centerX - 280, row5Y), 25));
             holes.Add(new Hole(new Vector2(centerX, row5Y), 10));
-            holes.Add(new Hole(new Vector2(centerX + 140, row5Y), 25));
+            holes.Add(new Hole(new Vector2(centerX + 280, row5Y), 25));
 
             return holes;
         }
@@ -115,20 +115,20 @@ namespace Bagatelle.Shared.GameObjects
             float centerX = (Margin + ChannelWallX) / 2f;
 
             // Add Peg at the top of the Channel Separator to smooth the corner
-            pegs.Add(new Peg(new Vector2(ChannelWallX + 2, ChannelWallTopY)));
+            pegs.Add(new Peg(new Vector2(ChannelWallX + 5, ChannelWallTopY)));
 
             // Main peg grid (lower area)
-            float startY = ArcCenter.Y - 80;
+            float startY = ArcCenter.Y - 160;
             for (int row = 0; row < 5; row++)
             {
                 int pegCount = (row % 2 == 0) ? 4 : 3;
-                float spacing = 80;
-                float offsetX = (row % 2 == 0) ? -120f : -80f;
+                float spacing = 160;
+                float offsetX = (row % 2 == 0) ? -240f : -160f;
 
                 for (int i = 0; i < pegCount; i++)
                 {
                     float x = centerX + offsetX + i * spacing;
-                    float y = startY + row * 110;
+                    float y = startY + row * 220;
                     pegs.Add(new Peg(new Vector2(x, y)));
                 }
             }
@@ -149,7 +149,7 @@ namespace Bagatelle.Shared.GameObjects
 
             // 2. Draw Borders/Walls
             Color wallColor = Color.SaddleBrown;
-            int thickness = 5;
+            int thickness = 10;
 
             // Outer Left Wall
             DrawHelper.DrawRectangle(spriteBatch, new Rectangle(MainArea.Left, MainArea.Top, thickness, MainArea.Height), wallColor);
@@ -162,7 +162,7 @@ namespace Bagatelle.Shared.GameObjects
 
             // Top Arc Wall
             // Draw upper semi-circle from PI (Left) to 2PI (Right)
-            DrawArcWall(spriteBatch, ArcCenter, ArcRadius - 2, thickness, wallColor);
+            DrawArcWall(spriteBatch, ArcCenter, ArcRadius - 4, thickness, wallColor);
 
             // Channel Separator Wall
             Rectangle channelWall = new Rectangle(

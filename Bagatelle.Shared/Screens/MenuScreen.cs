@@ -18,11 +18,11 @@ namespace Bagatelle.Shared.Screens
 
         public override void LoadContent()
         {
-            int buttonWidth = 280;
-            int buttonHeight = 60;
+            int buttonWidth = 560;
+            int buttonHeight = 120;
             int centerX = GameConstants.ScreenWidth / 2 - buttonWidth / 2;
-            int startY = 300;
-            int spacing = 80;
+            int startY = 600;
+            int spacing = 160;
 
             _onePlayerButton = new Rectangle(centerX, startY, buttonWidth, buttonHeight);
             _twoPlayerButton = new Rectangle(centerX, startY + spacing, buttonWidth, buttonHeight);
@@ -69,7 +69,7 @@ namespace Bagatelle.Shared.Screens
             DrawHelper.DrawRectangle(spriteBatch, new Rectangle(0, 0, GameConstants.ScreenWidth, GameConstants.ScreenHeight), GameConstants.BoardDarkColor);
 
             DrawHelper.DrawCenteredString(spriteBatch, Game1.FontLarge, "BAGATELLE",
-                new Vector2(GameConstants.ScreenWidth / 2, 150), Color.White);
+                new Vector2(GameConstants.ScreenWidth / 2, 300), Color.White);
 
             DrawButton(spriteBatch, _onePlayerButton, "1 PLAYER");
             DrawButton(spriteBatch, _twoPlayerButton, "2 PLAYERS");
@@ -86,7 +86,7 @@ namespace Bagatelle.Shared.Screens
         private void DrawButton(SpriteBatch spriteBatch, Rectangle rect, string text)
         {
             DrawHelper.DrawRectangle(spriteBatch, rect, Color.Beige * 0.2f);
-            DrawHelper.DrawBorder(spriteBatch, rect, Color.Beige, 2);
+            DrawHelper.DrawBorder(spriteBatch, rect, Color.Beige, 4);
             DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, text,
                 new Vector2(rect.Center.X, rect.Center.Y), Color.Beige);
         }
