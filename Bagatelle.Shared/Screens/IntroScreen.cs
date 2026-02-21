@@ -25,8 +25,8 @@ namespace Bagatelle.Shared.Screens
             DrawHelper.DrawRectangle(spriteBatch, new Rectangle(0, 0, GameConstants.ScreenWidth, GameConstants.ScreenHeight), GameConstants.BoardDarkColor);
 
             var center = new Vector2(GameConstants.ScreenWidth / 2, GameConstants.ScreenHeight / 2);
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "BAGATELLE", center, Color.White);
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Tap to start", center + new Vector2(0, 100), Color.Beige);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.FontLarge, "BAGATELLE", center, Color.White);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Tap to start", center + new Vector2(0, 150), Color.Beige);
         }
     }
 }

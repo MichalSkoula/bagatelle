@@ -13,6 +13,7 @@ namespace Bagatelle.Shared.Screens
     {
         private int _frameCount;
         private Rectangle _linkBounds;
+        private Rectangle _backButton;
 
         public CreditsScreen(Game game) : base(game) { }
 
@@ -31,6 +32,13 @@ namespace Bagatelle.Shared.Screens
                 (int)linkSize.X,
                 (int)linkSize.Y
             );
+
+            int buttonWidth = 660;
+            int buttonHeight = 120;
+            int buttonCenterX = GameConstants.ScreenWidth / 2 - buttonWidth / 2;
+            int startY = 600;
+            int spacing = 160;
+            _backButton = new Rectangle(buttonCenterX, startY + spacing * 4, buttonWidth, buttonHeight);
         }
 
         public override void Update(GameTime gameTime)
@@ -49,8 +57,8 @@ namespace Bagatelle.Shared.Screens
                 return;
             }
 
-            // Return to menu only if not clicking the link
-            if (InputManager.WasConfirmPressed() && !InputManager.IsButtonHeld(_linkBounds))
+            // Return to menu
+            if (InputManager.IsButtonPressed(_backButton))
                 Game1.Screens.SetScreen(new MenuScreen(Game));
         }
 
@@ -84,7 +92,7 @@ namespace Bagatelle.Shared.Screens
             int centerX = GameConstants.ScreenWidth / 2;
             DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "CREDITS", new Vector2(centerX, 300), Color.White);
 
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Inspired by the legendary", new Vector2(centerX, 760), Color.Beige);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Inspired by the legendary", new Vector2(centerX, 660), Color.Beige);
             DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Symbian game", new Vector2(centerX, 840), Color.Beige);
             DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Bagatelle Touch (2009)", new Vector2(centerX, 920), Color.Beige);
 
@@ -93,7 +101,15 @@ namespace Bagatelle.Shared.Screens
             // Draw clickable link
             DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "skoula.cz/bagatelle", new Vector2(centerX, 1120), Color.LightBlue);
 
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Tap to return", new Vector2(centerX, 1320), Color.Beige);
+            DrawButton(spriteBatch, _backButton, "BACK TO MENU");
+        }
+
+        private void DrawButton(SpriteBatch spriteBatch, Rectangle rect, string text)
+        {
+            DrawHelper.DrawRectangle(spriteBatch, rect, Color.Beige * 0.2f);
+            DrawHelper.DrawBorder(spriteBatch, rect, Color.Beige, 4);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, text,
+                new Vector2(rect.Center.X, rect.Center.Y), Color.Beige);
         }
     }
 }

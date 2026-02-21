@@ -47,9 +47,9 @@ namespace Bagatelle.Shared.Screens
                 return;
 
             if (InputManager.IsButtonPressed(_onePlayerButton))
-                Game1.Screens.SetScreen(new PlayingScreen(Game, 1));
+                Game1.Screens.SetScreen(new LevelSelectionScreen(Game, 1));
             else if (InputManager.IsButtonPressed(_twoPlayerButton))
-                Game1.Screens.SetScreen(new PlayingScreen(Game, 2));
+                Game1.Screens.SetScreen(new LevelSelectionScreen(Game, 2));
             else if (InputManager.IsButtonPressed(_creditsButton))
                 Game1.Screens.SetScreen(new CreditsScreen(Game));
 #if !ANDROID

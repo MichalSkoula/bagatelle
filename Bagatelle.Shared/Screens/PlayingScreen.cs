@@ -43,7 +43,7 @@ namespace Bagatelle.Shared.Screens
             // Check menu button
             if (InputManager.IsButtonPressed(_menuButton))
             {
-                Game1.Screens.SetScreen(new MenuScreen(Game));
+                Game1.Screens.SetScreen(new LevelSelectionScreen(Game, _playerCount));
                 return;
             }
 
