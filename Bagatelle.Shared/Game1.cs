@@ -23,6 +23,7 @@ namespace Bagatelle.Shared
         public static Texture2D RedBallSprite { get; private set; }
         public static Texture2D PegSprite { get; private set; }
         public static Texture2D HoleSprite { get; private set; }
+        public static Texture2D HoleSpriteGreen { get; private set; }
         public static SoundEffect TapSound { get; private set; }
         public static SoundEffect TapSound2 { get; private set; }
         public static SoundEffect TapSound3 { get; private set; }
@@ -154,6 +155,7 @@ namespace Bagatelle.Shared
             RedBallSprite = Content.Load<Texture2D>("sphere-10");
             PegSprite = Content.Load<Texture2D>("sphere-00");
             HoleSprite = Content.Load<Texture2D>("sphere-12");
+            HoleSpriteGreen = Content.Load<Texture2D>("sphere-21");
             TapSound = Content.Load<SoundEffect>("clicksound1");
             TapSound2 = Content.Load<SoundEffect>("wooden_03");
             TapSound3 = Content.Load<SoundEffect>("hit_01");

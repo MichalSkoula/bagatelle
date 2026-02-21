@@ -36,9 +36,7 @@ namespace Bagatelle.Shared.Screens
             int buttonWidth = 660;
             int buttonHeight = 120;
             int buttonCenterX = GameConstants.ScreenWidth / 2 - buttonWidth / 2;
-            int startY = 600;
-            int spacing = 160;
-            _backButton = new Rectangle(buttonCenterX, startY + spacing * 4, buttonWidth, buttonHeight);
+            _backButton = new Rectangle(buttonCenterX, 1240, buttonWidth, buttonHeight);
         }
 
         public override void Update(GameTime gameTime)
@@ -90,7 +88,7 @@ namespace Bagatelle.Shared.Screens
             DrawHelper.DrawRectangle(spriteBatch, new Rectangle(0, 0, GameConstants.ScreenWidth, GameConstants.ScreenHeight), GameConstants.BoardDarkColor);
 
             int centerX = GameConstants.ScreenWidth / 2;
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "CREDITS", new Vector2(centerX, 300), Color.White);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.FontLarge, "CREDITS", new Vector2(centerX, 300), Color.White);
 
             DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Inspired by the legendary", new Vector2(centerX, 660), Color.Beige);
             DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "Symbian game", new Vector2(centerX, 840), Color.Beige);

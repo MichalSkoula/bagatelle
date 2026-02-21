@@ -11,8 +11,10 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Game1.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)gameobjects\boards\Velocity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Platform.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\InputManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\LevelButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\TouchInput.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\IntroScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\LevelSelectionScreen.cs" />
@@ -23,7 +25,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\BaseScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\ScreenController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameObjects\Ball.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GameObjects\Board.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameObjects\Boards\Board.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameObjects\Boards\Heritage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameObjects\Hole.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameObjects\Launcher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameObjects\Peg.cs" />
@@ -35,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Content\" />
+    <Folder Include="$(MSBuildThisFileDirectory)GameObjects\Boards\" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="$(MSBuildThisFileDirectory)Content\Content.mgcb" />

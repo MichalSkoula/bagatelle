@@ -9,15 +9,17 @@ namespace Bagatelle.Shared.GameObjects
         public Vector2 Position { get; }
         public float Radius { get; }
         public int Points { get; }
+        private Texture2D sprite;
 
         public Ball Occupant { get; set; }
 
-        public Hole(Vector2 position, int points)
+        public Hole(Vector2 position, int points, Texture2D sprite)
         {
             Position = position;
             Points = points;
             Radius = GameConstants.HoleRadius;
             Occupant = null;
+            this.sprite = sprite;
         }
 
         public bool Contains(Ball ball)
@@ -29,7 +31,6 @@ namespace Bagatelle.Shared.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D sprite = Game1.HoleSprite;
             float scale = (Radius * 2) / sprite.Width;
             spriteBatch.Draw(
                 sprite,

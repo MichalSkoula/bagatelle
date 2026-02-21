@@ -1,5 +1,5 @@
 using Bagatelle.Shared.Controls;
-using Bagatelle.Shared.GameObjects;
+using Bagatelle.Shared.GameObjects.Boards;
 using Bagatelle.Shared.Logic;
 using Bagatelle.Shared.UI;
 using Microsoft.Xna.Framework;
@@ -14,16 +14,18 @@ namespace Bagatelle.Shared.Screens
         private GameManager _gameManager;
         private Hud _hud;
         private readonly int _playerCount;
+        private readonly System.Type _boardType;
         private Rectangle _menuButton;
 
-        public PlayingScreen(Game game, int playerCount) : base(game)
+        public PlayingScreen(Game game, int playerCount, System.Type boardType) : base(game)
         {
             _playerCount = playerCount;
+            _boardType = boardType;
         }
 
         public override void LoadContent()
         {
-            _board = new Board();
+            _board = (Board)System.Activator.CreateInstance(_boardType);
             _gameManager = new GameManager(_playerCount, _board);
             _hud = new Hud(_gameManager);
 
@@ -32,7 +34,7 @@ namespace Bagatelle.Shared.Screens
 
             MediaPlayer.Volume = 0.5f;
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.Play(Game1.Song1);
+            //MediaPlayer.Play(Game1.Song1);
         }
 
         public override void Update(GameTime gameTime)

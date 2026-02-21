@@ -1,4 +1,5 @@
 using Bagatelle.Shared.GameObjects;
+using Bagatelle.Shared.GameObjects.Boards;
 using Microsoft.Xna.Framework;
 using System;
 

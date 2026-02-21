@@ -30,10 +30,8 @@ namespace Bagatelle.Shared.Screens
 
 #if !ANDROID
             _fullscreenButton = new Rectangle(centerX, startY + spacing * 3, buttonWidth, buttonHeight);
-            _exitButton = new Rectangle(centerX, startY + spacing * 4, buttonWidth, buttonHeight);
-#else
-            _exitButton = new Rectangle(centerX, startY + spacing * 3, buttonWidth, buttonHeight);
 #endif
+            _exitButton = new Rectangle(centerX, 1240, buttonWidth, buttonHeight);
             _frameCount = 0;
         }
 

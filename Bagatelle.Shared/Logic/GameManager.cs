@@ -1,4 +1,5 @@
 using Bagatelle.Shared.GameObjects;
+using Bagatelle.Shared.GameObjects.Boards;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
@@ -22,6 +23,8 @@ namespace Bagatelle.Shared.Logic
         public int LastScore { get; private set; }
 
         public List<Ball> BallsOnBoard { get; } = new List<Ball>();
+
+        public Board Board => _board;
 
         private readonly Board _board;
         private bool _ballEnteredPlayArea;

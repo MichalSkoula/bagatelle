@@ -4,10 +4,18 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 
-namespace Bagatelle.Shared.GameObjects
+namespace Bagatelle.Shared.GameObjects.Boards
 {
-    public class Board
+    public abstract class Board
     {
+        public abstract string Name { get; }
+        public abstract int Index { get; }
+
+        public virtual Color BackgroundColor => GameConstants.BoardColor;
+        public virtual Color WallColor => Color.SaddleBrown;
+
+        public virtual Texture2D CurrentHoleSprite => Game1.HoleSprite;
+
         // Board Geometry
         public Rectangle MainArea { get; }      // Rectangular part of the board
         public Rectangle LaunchChannel { get; } // The channel area (logic only)
@@ -16,15 +24,15 @@ namespace Bagatelle.Shared.GameObjects
         public int ChannelWallX { get; }        // X coordinate of the wall separating channel and play area
         public float ChannelWallTopY { get; }   // Y coordinate where the channel wall ends
 
-        public List<Hole> Holes { get; }
-        public List<Peg> Pegs { get; }
+        public List<Hole> Holes { get; } = new List<Hole>();
+        public List<Peg> Pegs { get; } = new List<Peg>();
         public Launcher Launcher { get; }
 
-        private const int Margin = 40;
-        private const int TopMargin = 160; // More space for UI - scores and menu button
-        private const int ChannelWidth = 62;
+        protected const int Margin = 40;
+        protected const int TopMargin = 160; // More space for UI - scores and menu button
+        protected const int ChannelWidth = 62;
 
-        public Board()
+        protected Board()
         {
             int screenW = GameConstants.ScreenWidth;
             int screenH = GameConstants.ScreenHeight;
@@ -47,7 +55,7 @@ namespace Bagatelle.Shared.GameObjects
             // The rectangular part starts at ArcCenter.Y and goes down.
             MainArea = new Rectangle(
                 boardLeft,
-                (int)ArcCenter.Y,                              
+                (int)ArcCenter.Y,
                 boardWidth,
                 screenH - (int)ArcCenter.Y - 120
             );
@@ -68,103 +76,7 @@ namespace Bagatelle.Shared.GameObjects
                 MainArea.Bottom - (int)ChannelWallTopY
             );
 
-            // 3. Create objects
-            Holes = CreateHoles();
-            Pegs = CreatePegs();
-
             Launcher = new Launcher(new Vector2(LaunchChannel.Center.X, MainArea.Bottom + 20));
-        }
-
-        private List<Hole> CreateHoles()
-        {
-            var holes = new List<Hole>();
-            float centerX = (Margin + ChannelWallX) / 2f;
-            float startY = ArcCenter.Y - 210;
-            float rowSpacing = 150;
-
-            // Row 1: 75 points
-            holes.Add(new Hole(new Vector2(centerX, startY), 75));
-
-            // Row 2: 50 points
-            holes.Add(new Hole(new Vector2(centerX - 210, startY + rowSpacing), 50));
-            holes.Add(new Hole(new Vector2(centerX + 210, startY + rowSpacing), 50));
-
-            // Row 3: 100 points
-            float row3Y = startY + rowSpacing * 2;
-            holes.Add(new Hole(new Vector2(centerX, row3Y), 100));
-
-            // Row 4: 50 points
-            float row4Y = startY + rowSpacing * 3;
-            holes.Add(new Hole(new Vector2(centerX - 280, row4Y), 50));
-            holes.Add(new Hole(new Vector2(centerX + 280, row4Y), 50));
-
-            // Row 5: 50 points
-            float row5Y = startY + rowSpacing * 4;
-            holes.Add(new Hole(new Vector2(centerX, row5Y), 50));
-
-            // Row 6: 25 points
-            float row6Y = startY + rowSpacing * 5 - 50;
-            holes.Add(new Hole(new Vector2(centerX - 180, row6Y), 25));
-            holes.Add(new Hole(new Vector2(centerX + 180, row6Y), 25));
-
-            // Row 7: 25 points
-            float row7Y = startY + rowSpacing * 6;
-            holes.Add(new Hole(new Vector2(centerX - 220, row7Y), 25));
-            holes.Add(new Hole(new Vector2(centerX + 220, row7Y), 25));
-
-            // Row 8: 10 points
-            holes.Add(new Hole(new Vector2(centerX, row7Y + 50), 10));
-
-            return holes;
-        }
-
-        private List<Peg> CreatePegs()
-        {
-            var pegs = new List<Peg>();
-            float centerX = (Margin + ChannelWallX) / 2f;
-            float startY = ArcCenter.Y - 260;
-
-            // Row 1
-            pegs.Add(new Peg(new Vector2(centerX - 100, startY)));
-            pegs.Add(new Peg(new Vector2(centerX + 100, startY)));
-
-            // Row 2
-            pegs.Add(new Peg(new Vector2(centerX - 70, startY + 140)));
-            pegs.Add(new Peg(new Vector2(centerX + 70, startY + 140)));
-
-            // Row 3
-            pegs.Add(new Peg(new Vector2(centerX - 210, startY + 250)));
-            pegs.Add(new Peg(new Vector2(centerX + 210, startY + 250)));
-
-            // Row 4
-            pegs.Add(new Peg(new Vector2(centerX - 130, startY + 390)));
-            pegs.Add(new Peg(new Vector2(centerX - 40, startY + 430)));
-            pegs.Add(new Peg(new Vector2(centerX + 40, startY + 430)));
-            pegs.Add(new Peg(new Vector2(centerX + 130, startY + 390)));
-
-            // Row 5
-            pegs.Add(new Peg(new Vector2(centerX - 280, startY + 550)));
-            pegs.Add(new Peg(new Vector2(centerX + 280, startY + 550)));
-
-            // Row 6
-            pegs.Add(new Peg(new Vector2(centerX, startY + 700)));
-
-            // Row 7
-            pegs.Add(new Peg(new Vector2(centerX - 180, startY + 800)));
-            pegs.Add(new Peg(new Vector2(centerX + 180, startY + 800)));
-
-            // Row 8
-            pegs.Add(new Peg(new Vector2(centerX - 220, startY + 1000)));
-            pegs.Add(new Peg(new Vector2(centerX + 220, startY + 1000)));
-
-            // Row 9
-            pegs.Add(new Peg(new Vector2(centerX - 280, startY + 1050)));
-            pegs.Add(new Peg(new Vector2(centerX - 160, startY + 1050)));
-            pegs.Add(new Peg(new Vector2(centerX, startY + 1050)));
-            pegs.Add(new Peg(new Vector2(centerX + 160, startY + 1050)));
-            pegs.Add(new Peg(new Vector2(centerX + 280, startY + 1050)));
-
-            return pegs;
         }
 
         public Vector2 GetBallStartPosition()
@@ -180,16 +92,16 @@ namespace Bagatelle.Shared.GameObjects
 
             // 0. Draw Board Drop Shadow
             Rectangle boardShadowRect = new Rectangle(
-                MainArea.X + (int)shadowOffset.X, 
-                MainArea.Y + (int)shadowOffset.Y, 
-                MainArea.Width, 
+                MainArea.X + (int)shadowOffset.X,
+                MainArea.Y + (int)shadowOffset.Y,
+                MainArea.Width,
                 MainArea.Height);
             DrawHelper.DrawRectangle(spriteBatch, boardShadowRect, shadowColor);
             DrawHelper.DrawCircle(spriteBatch, ArcCenter + shadowOffset, ArcRadius, shadowColor);
 
             // 1. Draw Board Background
-            DrawHelper.DrawRectangle(spriteBatch, MainArea, GameConstants.BoardColor);
-            DrawHelper.DrawCircle(spriteBatch, ArcCenter, ArcRadius, GameConstants.BoardColor);
+            DrawHelper.DrawRectangle(spriteBatch, MainArea, BackgroundColor);
+            DrawHelper.DrawCircle(spriteBatch, ArcCenter, ArcRadius, BackgroundColor);
 
             // 1.5 Draw Wall Shadows (Light from NW)
             int thickness = 10;
@@ -213,7 +125,7 @@ namespace Bagatelle.Shared.GameObjects
             DrawHelper.DrawRectangle(spriteBatch, new Rectangle(MainArea.Left + (int)shadowOffset.X, MainArea.Bottom + (int)shadowOffset.Y, MainArea.Width, thickness), shadowColor);
 
             // 2. Draw Borders/Walls
-            Color wallColor = Color.SaddleBrown;
+            Color wallColor = WallColor;
 
             // Outer Left Wall
             DrawHelper.DrawRectangle(spriteBatch, new Rectangle(MainArea.Left, MainArea.Top, thickness, MainArea.Height), wallColor);

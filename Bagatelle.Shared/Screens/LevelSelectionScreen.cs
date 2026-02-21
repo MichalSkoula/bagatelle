@@ -1,13 +1,18 @@
 using Bagatelle.Shared.Controls;
+using Bagatelle.Shared.GameObjects.Boards;
 using Bagatelle.Shared.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Bagatelle.Shared.Screens
 {
     public class LevelSelectionScreen : BaseScreen
     {
-        private Rectangle _level1Button;
+        private List<LevelButton> _levelButtons;
         private Rectangle _backButton;
         private int _frameCount;
         private readonly int _playerCount;
@@ -25,9 +30,37 @@ namespace Bagatelle.Shared.Screens
             int startY = 600;
             int spacing = 160;
 
-            _level1Button = new Rectangle(centerX, startY, buttonWidth, buttonHeight);
-            _backButton = new Rectangle(centerX, startY + spacing * 4, buttonWidth, buttonHeight);
-            
+            _levelButtons = new List<LevelButton>();
+
+            // Find all non-abstract classes that inherit from Board
+            var boardTypes = Assembly.GetExecutingAssembly().GetTypes()
+                .Where(t => t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(Board)))
+                .ToList();
+
+            var tempBoards = new List<(Board Instance, Type Type)>();
+            foreach (var type in boardTypes)
+            {
+                tempBoards.Add(((Board)Activator.CreateInstance(type), type));
+            }
+
+            tempBoards = tempBoards.OrderBy(b => b.Instance.Index).ToList();
+
+            int currentY = startY;
+            foreach (var b in tempBoards)
+            {
+                _levelButtons.Add(new LevelButton
+                {
+                    Rect = new Rectangle(centerX, currentY, buttonWidth, buttonHeight),
+                    Name = b.Instance.Name,
+                    BoardType = b.Type
+                });
+
+                currentY += spacing;
+            }
+
+            // Place back button at fixed Y
+            _backButton = new Rectangle(centerX, 1240, buttonWidth, buttonHeight);
+
             _frameCount = 0;
         }
 
@@ -39,11 +72,16 @@ namespace Bagatelle.Shared.Screens
             if (_frameCount < LimitFrames)
                 return;
 
-            if (InputManager.IsButtonPressed(_level1Button))
+            foreach (var btn in _levelButtons)
             {
-                Game1.Screens.SetScreen(new PlayingScreen(Game, _playerCount));
+                if (InputManager.IsButtonPressed(btn.Rect))
+                {
+                    Game1.Screens.SetScreen(new PlayingScreen(Game, _playerCount, btn.BoardType));
+                    return;
+                }
             }
-            else if (InputManager.IsButtonPressed(_backButton))
+
+            if (InputManager.IsButtonPressed(_backButton))
             {
                 Game1.Screens.SetScreen(new MenuScreen(Game));
             }
@@ -53,10 +91,13 @@ namespace Bagatelle.Shared.Screens
         {
             DrawHelper.DrawRectangle(spriteBatch, new Rectangle(0, 0, GameConstants.ScreenWidth, GameConstants.ScreenHeight), GameConstants.BoardDarkColor);
 
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "SELECT LEVEL",
-                new Vector2(GameConstants.ScreenWidth / 2, 300), Color.White);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.FontLarge, "SELECT LEVEL", new Vector2(GameConstants.ScreenWidth / 2, 300), Color.White);
 
-            DrawButton(spriteBatch, _level1Button, "HERITAGE");
+            foreach (var btn in _levelButtons)
+            {
+                DrawButton(spriteBatch, btn.Rect, btn.Name);
+            }
+
             DrawButton(spriteBatch, _backButton, "BACK TO MENU");
         }
 

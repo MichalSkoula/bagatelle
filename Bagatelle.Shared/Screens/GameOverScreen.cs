@@ -24,8 +24,8 @@ namespace Bagatelle.Shared.Screens
             int buttonHeight = 120;
             int centerX = GameConstants.ScreenWidth / 2 - buttonWidth / 2;
 
-            _restartButton = new Rectangle(centerX, 900, buttonWidth, buttonHeight);
-            _menuButton = new Rectangle(centerX, 1060, buttonWidth, buttonHeight);
+            _restartButton = new Rectangle(centerX, 1080, buttonWidth, buttonHeight);
+            _menuButton = new Rectangle(centerX, 1240, buttonWidth, buttonHeight);
             _frameCount = 0;
         }
 
@@ -39,7 +39,7 @@ namespace Bagatelle.Shared.Screens
                 return;
 
             if (InputManager.IsButtonPressed(_restartButton))
-                Game1.Screens.SetScreen(new PlayingScreen(Game, _gameManager.PlayerCount));
+                Game1.Screens.SetScreen(new PlayingScreen(Game, _gameManager.PlayerCount, _gameManager.Board.GetType()));
             else if (InputManager.IsButtonPressed(_menuButton))
                 Game1.Screens.SetScreen(new MenuScreen(Game));
         }
@@ -50,7 +50,7 @@ namespace Bagatelle.Shared.Screens
 
             int centerX = GameConstants.ScreenWidth / 2;
 
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.Font, "GAME OVER", new Vector2(centerX, 300), Color.White);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.FontLarge, "GAME OVER", new Vector2(centerX, 300), Color.White);
 
             for (int i = 0; i < _gameManager.PlayerCount; i++)
             {

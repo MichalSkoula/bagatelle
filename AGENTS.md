@@ -62,3 +62,6 @@ dotnet run --project Bagatelle.DX/Bagatelle.DX.csproj
 ### Drawing
 - Use `DrawHelper` static methods for primitives (circles, rectangles, lines)
 - SpriteBatch is passed to `Draw()` - batch is already begun with scale transform
+
+## AI Agent Instructions
+- **DO NOT** automatically run build commands (e.g., `dotnet build`) after making code changes. The user will handle building manually to avoid file lock issues and save time.
