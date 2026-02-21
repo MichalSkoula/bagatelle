@@ -2,7 +2,8 @@
 
 Open source Monogame pinball-style game (awesome).
 
-<img width="400" height="671" alt="small" src="https://github.com/user-attachments/assets/4bef1c0e-ca1d-449d-8cfd-199015d64db8" />
+![bagatelle slider](https://github.com/user-attachments/assets/4c64d8ee-7663-457c-b02c-9ab3507c5109)
+
 
 ## LINKS
 
