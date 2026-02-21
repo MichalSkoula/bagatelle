@@ -9,7 +9,7 @@
   <Identity
     Name="43177Michalkoula.Bagatelle"
     Publisher="CN=0FC37EF8-26B5-492F-87A3-AECF73C84ABB"
-    Version="1.0.5.0" />
+    Version="1.0.7.0" />
 
   <Properties>
     <DisplayName>Bagatelle</DisplayName>

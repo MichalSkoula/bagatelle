@@ -34,7 +34,7 @@ namespace Bagatelle.Shared.Screens
 
             MediaPlayer.Volume = 0.5f;
             MediaPlayer.IsRepeating = true;
-            //MediaPlayer.Play(Game1.Song1);
+            MediaPlayer.Play(Game1.Song1);
         }
 
         public override void Update(GameTime gameTime)
