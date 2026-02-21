@@ -22,7 +22,7 @@ namespace Bagatelle.Shared.GameObjects
 
         private const int Margin = 40;
         private const int TopMargin = 160; // More space for UI - scores and menu button
-        private const int ChannelWidth = 80;
+        private const int ChannelWidth = 62;
 
         public Board()
         {
@@ -47,7 +47,7 @@ namespace Bagatelle.Shared.GameObjects
             // The rectangular part starts at ArcCenter.Y and goes down.
             MainArea = new Rectangle(
                 boardLeft,
-                (int)ArcCenter.Y,
+                (int)ArcCenter.Y,                              
                 boardWidth,
                 screenH - (int)ArcCenter.Y - 120
             );
@@ -58,7 +58,7 @@ namespace Bagatelle.Shared.GameObjects
 
             // The channel wall shouldn't go all the way to the top of the arc.
             // It should stop to let the ball curve around.
-            ChannelWallTopY = ArcCenter.Y - 80;
+            ChannelWallTopY = ArcCenter.Y;
 
             // Logical rect for channel (used for input/logic mostly)
             LaunchChannel = new Rectangle(
@@ -124,9 +124,6 @@ namespace Bagatelle.Shared.GameObjects
             float centerX = (Margin + ChannelWallX) / 2f;
             float startY = ArcCenter.Y - 260;
 
-            // Add Peg at the top of the Channel Separator to smooth the corner
-            pegs.Add(new Peg(new Vector2(ChannelWallX + 5, ChannelWallTopY)));
-
             // Row 1
             pegs.Add(new Peg(new Vector2(centerX - 100, startY)));
             pegs.Add(new Peg(new Vector2(centerX + 100, startY)));
@@ -178,13 +175,45 @@ namespace Bagatelle.Shared.GameObjects
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            Vector2 shadowOffset = new Vector2(5.3f, 5.3f);
+            Color shadowColor = Color.Black * 0.4f;
+
+            // 0. Draw Board Drop Shadow
+            Rectangle boardShadowRect = new Rectangle(
+                MainArea.X + (int)shadowOffset.X, 
+                MainArea.Y + (int)shadowOffset.Y, 
+                MainArea.Width, 
+                MainArea.Height);
+            DrawHelper.DrawRectangle(spriteBatch, boardShadowRect, shadowColor);
+            DrawHelper.DrawCircle(spriteBatch, ArcCenter + shadowOffset, ArcRadius, shadowColor);
+
             // 1. Draw Board Background
             DrawHelper.DrawRectangle(spriteBatch, MainArea, GameConstants.BoardColor);
             DrawHelper.DrawCircle(spriteBatch, ArcCenter, ArcRadius, GameConstants.BoardColor);
 
+            // 1.5 Draw Wall Shadows (Light from NW)
+            int thickness = 10;
+
+            // Outer Left Wall Shadow
+            DrawHelper.DrawRectangle(spriteBatch, new Rectangle(MainArea.Left + (int)shadowOffset.X, MainArea.Top + (int)shadowOffset.Y, thickness, MainArea.Height), shadowColor);
+
+            // Top Arc Wall Shadow
+            DrawArcWall(spriteBatch, ArcCenter + shadowOffset, ArcRadius - 5, thickness, shadowColor);
+
+            // Channel Separator Wall Shadow
+            Rectangle channelWallShadow = new Rectangle(
+                ChannelWallX + (int)shadowOffset.X,
+                (int)ChannelWallTopY + (int)shadowOffset.Y,
+                thickness,
+                MainArea.Bottom - (int)ChannelWallTopY
+            );
+            DrawHelper.DrawRectangle(spriteBatch, channelWallShadow, shadowColor);
+
+            // Bottom Wall Shadow
+            DrawHelper.DrawRectangle(spriteBatch, new Rectangle(MainArea.Left + (int)shadowOffset.X, MainArea.Bottom + (int)shadowOffset.Y, MainArea.Width, thickness), shadowColor);
+
             // 2. Draw Borders/Walls
             Color wallColor = Color.SaddleBrown;
-            int thickness = 10;
 
             // Outer Left Wall
             DrawHelper.DrawRectangle(spriteBatch, new Rectangle(MainArea.Left, MainArea.Top, thickness, MainArea.Height), wallColor);
@@ -197,7 +226,7 @@ namespace Bagatelle.Shared.GameObjects
 
             // Top Arc Wall
             // Draw upper semi-circle from PI (Left) to 2PI (Right)
-            DrawArcWall(spriteBatch, ArcCenter, ArcRadius - 4, thickness, wallColor);
+            DrawArcWall(spriteBatch, ArcCenter, ArcRadius - 5, thickness, wallColor);
 
             // Channel Separator Wall
             Rectangle channelWall = new Rectangle(

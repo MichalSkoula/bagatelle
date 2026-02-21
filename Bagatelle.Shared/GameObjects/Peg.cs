@@ -24,13 +24,29 @@ namespace Bagatelle.Shared.GameObjects
         {
             Texture2D sprite = Game1.PegSprite;
             float scale = (Radius * 2) / sprite.Width;
+            Vector2 origin = new Vector2(sprite.Width / 2f, sprite.Height / 2f);
+
+            // Draw shadow
+            spriteBatch.Draw(
+                sprite,
+                Position + new Vector2(1.3f, 1.3f),
+                null,
+                Color.Black * 0.4f,
+                0f,
+                origin,
+                scale,
+                SpriteEffects.None,
+                0f
+            );
+
+            // Draw peg
             spriteBatch.Draw(
                 sprite,
                 Position,
                 null,
                 Color.White,
                 0f,
-                new Vector2(sprite.Width / 2f, sprite.Height / 2f),
+                origin,
                 scale,
                 SpriteEffects.None,
                 0f

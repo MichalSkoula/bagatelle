@@ -62,13 +62,29 @@ namespace Bagatelle.Shared.GameObjects
         public void Draw(SpriteBatch spriteBatch)
         {
             float scale = (Radius * 2) / Sprite.Width;
+            Vector2 origin = new Vector2(Sprite.Width / 2f, Sprite.Height / 2f);
+
+            // Draw shadow
+            spriteBatch.Draw(
+                Sprite,
+                Position + new Vector2(2.6f, 2.6f),
+                null,
+                Color.Black * 0.4f,
+                0f,
+                origin,
+                scale,
+                SpriteEffects.None,
+                0f
+            );
+
+            // Draw ball
             spriteBatch.Draw(
                 Sprite,
                 Position,
                 null,
                 Color.White,
                 0f,
-                new Vector2(Sprite.Width / 2f, Sprite.Height / 2f),
+                origin,
                 scale,
                 SpriteEffects.None,
                 0f

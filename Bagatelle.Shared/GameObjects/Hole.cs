@@ -42,7 +42,7 @@ namespace Bagatelle.Shared.GameObjects
                 SpriteEffects.None,
                 0f
             );
-            DrawHelper.DrawCenteredString(spriteBatch, Game1.FontSmall, Points.ToString(), Position - new Vector2(0, 60), Color.Beige);
+            DrawHelper.DrawCenteredString(spriteBatch, Game1.FontSmall, Points.ToString(), Position - new Vector2(0, 60), Color.Beige * 0.7f);
         }
     }
 }
