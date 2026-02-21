@@ -22,7 +22,7 @@ namespace Bagatelle.Shared
         public const float BallStoppedTimeThreshold = 0.5f; // Seconds ball must be slow to be "stopped"
 
         // Peg
-        public const float PegRadius = 12f;
+        public const float PegRadius = 10f;
 
         // Hole
         public const float HoleRadius = 24f;
